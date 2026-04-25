@@ -9,7 +9,7 @@
 body{
   margin:0;
   height:100vh;
-  position: relative; /* 让伪元素定位 */
+  position: relative;
 
   background-size: 100% auto;
   background-repeat: no-repeat;
@@ -19,7 +19,6 @@ body{
   transition:background-image 0.5s ease;
 }
 
-/* ✨ 新增：底纹层 */
 body::before {
   content: '';
   position: absolute;
@@ -28,66 +27,77 @@ body::before {
   width: 100%;
   height: 100%;
   background-image: url('https://i.ibb.co/PzPCwYPM/IMG-4755.png');
-  background-repeat: repeat; /* 平铺 */
-  background-size: auto; /* 保持原始尺寸 */
-  opacity: 0.15; /* 调整透明度，避免太抢眼 */
-  z-index: -1; /* 在主背景下层 */
-  pointer-events: none; /* 不阻挡交互 */
+  background-repeat: repeat;
+  background-size: auto;
+  opacity: 0.15;
+  z-index: -1;
+  pointer-events: none;
 }
 
-/* 时钟容器 */
-.clock-widget {
+/* 时钟容器 - 文字叠加在图标上 */
+.clock-container {
   position: fixed;
   top: 20px;
   right: 20px;
   z-index: 9999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  width: 100px;
+  height: 100px;
 }
 
 /* 时钟图标背景 */
-.clock-icon-bg {
-  width: 80px;
-  height: 80px;
+.clock-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
 }
 
-/* 时间文本样式 */
-.clock-text {
-  color: white;
+/* 时钟文字层 */
+.clock-text-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
-  text-shadow: 0 0 10px rgba(0,0,0,0.8);
-  margin-top: 5px;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  width: 100%;
 }
 
-.weekday {
+.weekday-display {
   font-size: 14px;
   font-weight: 500;
+  margin-bottom: 2px;
 }
 
-.date {
+.date-display {
+  font-size: 18px;
+  font-weight: 400;
+  margin-bottom: 2px;
+}
+
+.period-display {
   font-size: 12px;
-  margin: 2px 0;
+  font-weight: 400;
+  margin-bottom: 2px;
+  color: #f0f0f0;
 }
 
-.period {
-  font-size: 11px;
-  color: #aaa;
-}
-
-.time {
-  font-size: 24px;
+.time-display {
+  font-size: 28px;
   font-weight: 300;
   letter-spacing: 1px;
 }
 
-.percentage {
-  font-size: 11px;
-  color: #aaa;
+.percentage-display {
+  font-size: 12px;
+  font-weight: 400;
+  color: #f0f0f0;
   margin-top: 2px;
 }
 </style>
@@ -95,15 +105,15 @@ body::before {
 </head>
 <body>
 
-<!-- 时钟组件 -->
-<div class="clock-widget" id="clockWidget">
-  <div class="clock-icon-bg" id="clockIconBg"></div>
-  <div class="clock-text">
-    <div class="weekday" id="weekdayText">星期二</div>
-    <div class="date" id="dateText">02日</div>
-    <div class="period" id="periodText">上午</div>
-    <div class="time" id="timeText">08:33</div>
-    <div class="percentage" id="percentageText">25%</div>
+<!-- 时钟组件 - 文字叠加在图标上 -->
+<div class="clock-container">
+  <div class="clock-bg" id="clockBg"></div>
+  <div class="clock-text-overlay">
+    <div class="weekday-display" id="weekdayDisplay">星期二</div>
+    <div class="date-display" id="dateDisplay">02日</div>
+    <div class="period-display" id="periodDisplay">上午</div>
+    <div class="time-display" id="timeDisplay">08:33</div>
+    <div class="percentage-display" id="percentageDisplay">25%</div>
   </div>
 </div>
 
@@ -120,48 +130,57 @@ function updateClock() {
   
   // 日期
   const day = now.getDate();
-  const dateStr = day < 10 ? '0' + day + '日' : day + '日';
+  const dateStr = (day < 10 ? '0' + day : day) + '日';
   
-  // 时段判断（上午/下午）
+  // 时段判断
   const period = hours < 12 ? '上午' : '下午';
   
   // 时间格式
   const timeStr = (hours < 10 ? '0' + hours : hours) + ':' + (minutes < 10 ? '0' + minutes : minutes);
   
-  // 随机电量百分比（模拟）
-  const percentage = Math.floor(Math.random() * 30) + 20; // 20-49%
+  // 随机电量百分比
+  const percentage = Math.floor(Math.random() * 30) + 20;
   
-  // 更新文本
-  document.getElementById('weekdayText').textContent = weekday;
-  document.getElementById('dateText').textContent = dateStr;
-  document.getElementById('periodText').textContent = period;
-  document.getElementById('timeText').textContent = timeStr;
-  document.getElementById('percentageText').textContent = percentage + '%';
+  // 更新文字
+  document.getElementById('weekdayDisplay').textContent = weekday;
+  document.getElementById('dateDisplay').textContent = dateStr;
+  document.getElementById('periodDisplay').textContent = period;
+  document.getElementById('timeDisplay').textContent = timeStr;
+  document.getElementById('percentageDisplay').textContent = percentage + '%';
   
-  // 根据时间切换图标背景
-  const iconBg = document.getElementById('clockIconBg');
+  // 根据时间切换背景图标
+  const clockBg = document.getElementById('clockBg');
   if (hours >= 7 && hours < 15) {
-    // 白天 (7:00-14:59)
-    iconBg.style.backgroundImage = "url('https://i.ibb.co/sJCmM13V/IMG-4775.png')";
+    clockBg.style.backgroundImage = "url('https://i.ibb.co/sJCmM13V/IMG-4775.png')";
   } else if (hours >= 15 && hours < 19) {
-    // 傍晚 (15:00-18:59)
-    iconBg.style.backgroundImage = "url('https://i.ibb.co/xtdH3Mpt/IMG-4773.png')";
+    clockBg.style.backgroundImage = "url('https://i.ibb.co/xtdH3Mpt/IMG-4773.png')";
   } else {
-    // 晚上 (19:00-6:59)
-    iconBg.style.backgroundImage = "url('https://i.ibb.co/bjfKnynR/IMG-4774.png')";
+    clockBg.style.backgroundImage = "url('https://i.ibb.co/bjfKnynR/IMG-4774.png')";
   }
 }
 
 // 初始更新
 updateClock();
 
-// 每分钟更新一次
+// 每分钟更新
 setInterval(updateClock, 60000);
 
-// ===== 时间判断 =====
+// 每秒更新时间（让时间实时变化）
+setInterval(() => {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const timeStr = (hours < 10 ? '0' + hours : hours) + ':' + (minutes < 10 ? '0' + minutes : minutes);
+  document.getElementById('timeDisplay').textContent = timeStr;
+  
+  // 实时更新时段
+  const period = hours < 12 ? '上午' : '下午';
+  document.getElementById('periodDisplay').textContent = period;
+}, 1000);
+
+// ===== 原有代码保持 =====
 function getTimeType() {
   const hour = new Date().getHours()
-
   if (hour >= 7 && hour < 15) {
     return "day"
   } else if (hour >= 15 && hour < 19) {
@@ -171,7 +190,6 @@ function getTimeType() {
   }
 }
 
-// ===== UI图片 =====
 const UI_MAP = {
   day: [
     "https://i.ibb.co/2GyGQtz/IMG-4785.jpg",
@@ -188,7 +206,6 @@ const UI_MAP = {
   ]
 }
 
-// ===== 随机选图 =====
 function getRandomUI() {
   const type = getTimeType()
   const list = UI_MAP[type]
@@ -196,82 +213,59 @@ function getRandomUI() {
   return list[index]
 }
 
-// ===== 设置背景 =====
 function setBackground() {
   const bg = getRandomUI()
   document.body.style.backgroundImage = `url(${bg})`
 }
 
-// ===== 初始加载 =====
 setBackground()
-
-// ===== 每10分钟刷新 =====
-update()
-setInterval(update, 30 * 60 * 1000)
 setInterval(() => {
   setBackground()
 }, 10 * 60 * 1000)
   
-// ===== 状态数值 =====
-let mood = 70      // 心情
-let energy = 60    // 精力
-let hunger = 50    // 饥饿
-let sleepiness = 30 // 困意
+let mood = 70
+let energy = 60
+let hunger = 50
+let sleepiness = 30
 
-// ===== 时间影响 =====
 function updateStatusByTime() {
   const hour = new Date().getHours()
-
-  // 早上心情低
   if (hour >= 7 && hour <= 9) {
     mood -= 10
     sleepiness += 20
   }
-
-  // 晚上困意增加
   if (hour >= 22) {
     sleepiness += 15
   }
-
-  // 饥饿时间段
   if ((hour >= 11 && hour <= 13) || (hour >= 18 && hour <= 19)) {
     hunger += 20
   }
-
-  // 限制范围
   mood = Math.max(-30, Math.min(100, mood))
   energy = Math.max(0, Math.min(100, energy))
   hunger = Math.max(0, Math.min(100, hunger))
   sleepiness = Math.max(0, Math.min(100, sleepiness))
 }
 
-// 初始化一次
 updateStatusByTime()
 
 document.body.addEventListener("click", () => {
   const action = Math.floor(Math.random() * 3)
-
   if (action === 0) {
-    // 吃饭
     hunger -= 20
     mood += 5
   } else if (action === 1) {
-    // 睡觉
     sleepiness -= 30
     energy += 20
   } else {
-    // 摸鱼
     mood += 10
     energy -= 5
   }
-
   updateStatusByTime()
   showStatus()
 })
 
 function showStatus() {
   let box = document.getElementById("statusBox")
-
   if (!box) {
     box = document.createElement("div")
     box.id = "statusBox"
@@ -285,7 +279,6 @@ function showStatus() {
     box.style.fontSize = "14px"
     document.body.appendChild(box)
   }
-
   box.innerHTML = `
   心情：${mood}<br>
   精力：${energy}<br>
@@ -294,7 +287,6 @@ function showStatus() {
   `
 }
 
-// 初始显示
 showStatus()
 
 function showMoodIcon() {
@@ -305,7 +297,6 @@ function showMoodIcon() {
   icon.style.transform = "translateX(-50%)"
   icon.style.fontSize = "30px"
   icon.style.transition = "0.5s"
-
   if (mood > 80) {
     icon.innerText = "❤️"
   } else if (mood > 50) {
@@ -315,30 +306,24 @@ function showMoodIcon() {
   } else {
     icon.innerText = "💧"
   }
-
   document.body.appendChild(icon)
-
   setTimeout(() => {
     icon.remove()
   }, 1500)
 }
 
-// 创建心情图标
 let moodIcon = document.createElement('img');
 moodIcon.style.position = 'absolute';
 moodIcon.style.zIndex = '9999';
 document.body.appendChild(moodIcon);
 
-// 更新心情图标位置
 function updateMoodIcon() {
   const character = document.querySelector('.character');
   const characterRect = character.getBoundingClientRect();
-  
   moodIcon.style.left = `${characterRect.left + characterRect.width / 2 - moodIcon.width / 2}px`;
   moodIcon.style.top = `${characterRect.top - moodIcon.height - 10}px`;
 }
 
-// 根据心情值设置图标
 function updateMoodIconBasedOnStatus() {
   if (mood > 70) {
     moodIcon.src = "https://example.com/heart-icon.png";
