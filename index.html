@@ -3,19 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>像素生活UI</title>
+<title>璐的小家</title>
 
 <style>
 body{
   margin:0;
   height:100vh;
+  position: relative; /* 让伪元素定位 */
 
-  background-size: 100% auto; /* ✅关键：不裁人 */
+  background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: center top;
-  background-color: #000; /* 防止留白难看 */
+  background-color: #000;
 
   transition:background-image 0.5s ease;
+}
+
+/* ✨ 新增：底纹层 */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://i.ibb.co/PzPCwYPM/IMG-4755.png');
+  background-repeat: repeat; /* 平铺 */
+  background-size: auto; /* 保持原始尺寸 */
+  opacity: 0.15; /* 调整透明度，避免太抢眼 */
+  z-index: -1; /* 在主背景下层 */
+  pointer-events: none; /* 不阻挡交互 */
 }
 </style>
 
