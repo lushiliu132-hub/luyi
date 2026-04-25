@@ -237,7 +237,63 @@ function update() {
 
 // 调用：每30分钟（30 * 60 * 1000毫秒）更新一次
 setInterval(update, 30 * 60 * 1000); // 每半小时更新一次
+{
+      margin: 0;
+      height: 100vh;
+      position: relative;
+      background-size: 100% auto;
+      background-repeat: no-repeat;
+      background-position: center top;
+      background-color: #000;
+    }
 
+    .time-icon {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 10; /* 确保它在最上面 */
+      width: 100px; /* 图标大小 */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 时间段图标 -->
+  <img id="time-icon" class="time-icon" src="" alt="时间图标">
+
+  <script>
+    // 获取当前时间
+    function getTimePeriod() {
+      const hour = new Date().getHours();
+
+      if (hour >= 7 && hour < 15) {
+        return "day";   // 白天
+      } else if (hour >= 15 && hour < 19) {
+        return "evening"; // 傍晚
+      } else {
+        return "night";  // 晚上
+      }
+    }
+
+    // 根据时间段设置图标
+    function updateTimeIcon() {
+      const period = getTimePeriod();
+      const timeicon = document.getElementById("time-icon");
+
+      if (period === "day") {
+        timeicon.src = "https://i.ibb.co/wNfw8kqx/IMG-4376.jpg"; // 白天图标
+      } else if (period === "evening") {
+        timeicon.src = "https://i.ibb.co/NdxsZHbL/IMG-4372.jpg"; // 傍晚图标
+      } else {
+        timeicon.src = "https://i.ibb.co/hFJgP1bK/IMG-4377.jpg"; // 晚上图标
+      }
+    }
+
+    // 初始更新
+    updateTimeIcon();
+
+    // 每分钟更新一次
+    setInterval(updateTimeIcon, 60 * 1000); // 每分钟更新一次
 </script>
 
 </body>
