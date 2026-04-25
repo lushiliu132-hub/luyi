@@ -4,16 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>像素生活UI</title>
+
 <style>
 body{
   margin:0;
   height:100vh;
-  background-size:cover;
-  background-position:center;
-  transition:background-image 0.5s ease;}
+
+  background-size: 100% auto; /* ✅关键：不裁人 */
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-color: #000; /* 防止留白难看 */
+
+  transition:background-image 0.5s ease;
+}
 </style>
+
 </head>
 <body>
+
 <script>
 // ===== 时间判断 =====
 function getTimeType() {
@@ -28,33 +36,46 @@ function getTimeType() {
   }
 }
 
-// ===== UI图片（已全部帮你填好）=====
+// ===== UI图片 =====
 const UI_MAP = {
   day: [
-    "https://i.ibb.co/RTRM2Y5Z/IMG-4364.jpg", // 站立
-    "https://i.ibb.co/qLDQjN9f/IMG-4370.jpg", // 吃饭
-    "https://i.ibb.co/v6PDRSSg/IMG-4376.jpg"  // 睡觉
+    "https://i.ibb.co/RTRM2Y5Z/IMG-4364.jpg",
+    "https://i.ibb.co/qLDQjN9f/IMG-4370.jpg",
+    "https://i.ibb.co/v6PDRSSg/IMG-4376.jpg"
   ],
   evening: [
-    "https://i.ibb.co/p6cXrycC/IMG-4372.jpg" // 傍晚
+    "https://i.ibb.co/p6cXrycC/IMG-4372.jpg"
   ],
   night: [
     "https://i.ibb.co/35m6d0j8/IMG-4374.jpg",
     "https://i.ibb.co/p6yjz7jy/IMG-4373.jpg",
-    "https://i.ibb.co/YTkBwMfs/IMG-4377.jpg"  ]}
+    "https://i.ibb.co/YTkBwMfs/IMG-4377.jpg"
+  ]
+}
+
 // ===== 随机选图 =====
 function getRandomUI() {
   const type = getTimeType()
   const list = UI_MAP[type]
   const index = Math.floor(Math.random() * list.length)
-  return list[index]}
+  return list[index]
+}
+
 // ===== 设置背景 =====
-function setBackground() {  const bg = getRandomUI()
-document.body.style.backgroundImage = `url(${bg})`}
+function setBackground() {
+  const bg = getRandomUI()
+  document.body.style.backgroundImage = `url(${bg})`
+}
+
 // ===== 初始加载 =====
 setBackground()
-// ===== 每10分钟刷新=====setInterval(() => {  setBackground()}, 10 * 60 * 1000)
+
+// ===== 每10分钟刷新 =====
+setInterval(() => {
+  setBackground()
+}, 10 * 60 * 1000)
+
 </script>
+
 </body>
 </html>
-:::
