@@ -29,7 +29,7 @@
       background-repeat: repeat; /* 平铺 */
       background-size: auto; /* 保持原始尺寸 */
       opacity: 0.15; /* 调整透明度，避免太抢眼 */
-      z-index: -1; /* 在主背景下层 */
+      z-index: -2; /* 在主背景下层 */
       pointer-events: none; /* 不阻挡交互 */
     }
 
@@ -40,8 +40,14 @@
       right: 20px;
       z-index: 10; /* 确保它在最上面 */
       width: 100px; /* 图标大小 */
-      background-color: rgba(255, 255, 255, 0.5); /* 暂时用背景色做调试 */
     }
+
+    /* UI层级设置 */
+    .ui-elements {
+      position: relative;
+      z-index: 1; /* 确保 UI 在背景之上 */
+    }
+
   </style>
 </head>
 <body>
@@ -49,26 +55,70 @@
   <!-- 时间段图标 -->
   <img id="time-icon" class="time-icon" src="https://i.ibb.co/35m6d0j8/IMG-4374.jpg" alt="时间图标">
 
+  <!-- UI 交互部分 -->
+  <div class="ui-elements">
+    <!-- 白天人物 -->
+    <img src="https://i.ibb.co/0RKzx2Y4/IMG-4364.jpg" class="character" id="character" alt="人物" />
+  </div>
+
   <script>
-    // 获取当前时间
-    function getTimePeriod() {
-      const hour = new Date().getHours();
+    // ===== 时间判断 =====
+    function getTimeType() {
+      const hour = new Date().getHours()
 
       if (hour >= 7 && hour < 15) {
-        return "day";   // 白天
+        return "day"  // 白天
       } else if (hour >= 15 && hour < 19) {
-        return "evening"; // 傍晚
+        return "evening"  // 傍晚
       } else {
-        return "night";  // 晚上
+        return "night"  // 晚上
       }
     }
 
-    // 根据时间段设置图标
+    // ===== UI图片 =====
+    const UI_MAP = {
+      day: [
+        "https://i.ibb.co/RTRM2Y5Z/IMG-4364.jpg", // 白天
+        "https://i.ibb.co/qLDQjN9f/IMG-4370.jpg", // 吃饭
+        "https://i.ibb.co/v6PDRSSg/IMG-4376.jpg"  // 睡觉
+      ],
+      evening: [
+        "https://i.ibb.co/p6cXrycC/IMG-4372.jpg" // 傍晚
+      ],
+      night: [
+        "https://i.ibb.co/35m6d0j8/IMG-4374.jpg", // 晚上
+        "https://i.ibb.co/p6yjz7jy/IMG-4373.jpg", // 吃饭
+        "https://i.ibb.co/YTkBwMfs/IMG-4377.jpg"  // 睡觉
+      ]
+    }
+
+    // ===== 随机选图 =====
+    function getRandomUI() {
+      const type = getTimeType()
+      const list = UI_MAP[type]
+      const index = Math.floor(Math.random() * list.length)
+      return list[index]
+    }
+
+    // ===== 设置背景 =====
+    function setBackground() {
+      const bg = getRandomUI()
+      document.body.style.backgroundImage = `url(${bg})`
+    }
+
+    // ===== 初始加载 =====
+    setBackground()
+
+    // ===== 每30分钟更新背景 =====
+    setInterval(() => {
+      setBackground()
+    }, 30 * 60 * 1000)  // 每30分钟更新一次
+
+    // ===== 设置时间图标 =====
     function updateTimeIcon() {
-      const period = getTimePeriod();
+      const period = getTimeType();
       const timeIcon = document.getElementById("time-icon");
 
-      console.log("当前时间段:", period);  // 调试：检查时间段
       if (period === "day") {
         timeIcon.src = "https://i.ibb.co/wNfw8kqx/IMG-4376.jpg"; // 白天图标
       } else if (period === "evening") {
@@ -83,6 +133,7 @@
 
     // 每分钟更新一次
     setInterval(updateTimeIcon, 60 * 1000); // 每分钟更新一次
+
   </script>
 
 </body>
