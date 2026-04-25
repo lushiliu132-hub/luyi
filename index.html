@@ -10,30 +10,17 @@ body{
   margin:0;
   height:100vh;
 
-  /* 添加背景图 */
-  background-image: url("https://i.ibb.co/PzPCwYPM/IMG-4755.png");
-  background-size: 100% auto; /* ✅确保背景不裁剪 */
+  background-size: 100% auto; /* ✅关键：不裁人 */
   background-repeat: no-repeat;
   background-position: center top;
   background-color: #000; /* 防止留白难看 */
 
   transition:background-image 0.5s ease;
 }
-
-.ui-image {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); /* 居中显示UI图 */
-  z-index: 1; /* 确保UI图在背景图上面 */
-}
 </style>
 
 </head>
 <body>
-
-<!-- UI 图片 -->
-<img src="https://i.ibb.co/RTRM2Y5Z/IMG-4364.jpg" class="ui-image" alt="UI图" id="ui-img">
 
 <script>
 // ===== 时间判断 =====
