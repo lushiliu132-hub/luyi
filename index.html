@@ -4,66 +4,60 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>像素生活UI</title>
-<style>
-body {
-  margin: 0;
-  height: 100vh;
 
-  /* 背景图片设置 */
-  background-image: 
-    url("https://i.ibb.co/PzPCwYPM/IMG-4755.png"),  /* 背景 */
-    none;
-  background-repeat: 
-    repeat,   /* 背景平铺 */
-    no-repeat;
-  background-position: 
-    center,   /* 背景居中 */
-    center top;
-  background-size: 
-    cover,   /* 背景图覆盖整个页面 */
-    100% auto; /* UI图不裁，按比例居中 */
-  background-color: #000;
-  transition: background-image 0.5s ease;
+<style>
+body{
+  margin:0;
+  height:100vh;
+
+  /* 添加背景图 */
+  background-image: url("https://i.ibb.co/PzPCwYPM/IMG-4755.png");
+  background-size: 100% auto; /* ✅确保背景不裁剪 */
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-color: #000; /* 防止留白难看 */
+
+  transition:background-image 0.5s ease;
 }
 
-/* UI图片容器 */
 .ui-image {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%); /* 居中 */
-  z-index: 1;  /* 确保UI图在背景图上面 */
+  transform: translate(-50%, -50%); /* 居中显示UI图 */
+  z-index: 1; /* 确保UI图在背景图上面 */
 }
 </style>
+
 </head>
 <body>
 
-<!-- UI 图片显示区域 -->
+<!-- UI 图片 -->
 <img src="https://i.ibb.co/RTRM2Y5Z/IMG-4364.jpg" class="ui-image" alt="UI图" id="ui-img">
 
 <script>
 // ===== 时间判断 =====
 function getTimeType() {
-  const hour = new Date().getHours();
+  const hour = new Date().getHours()
 
   if (hour >= 7 && hour < 15) {
-    return "day";
+    return "day"
   } else if (hour >= 15 && hour < 19) {
-    return "evening";
+    return "evening"
   } else {
-    return "night";
+    return "night"
   }
 }
 
 // ===== UI图片 =====
 const UI_MAP = {
   day: [
-    "https://i.ibb.co/RTRM2Y5Z/IMG-4364.jpg", // 站立
-    "https://i.ibb.co/qLDQjN9f/IMG-4370.jpg", // 吃饭
-    "https://i.ibb.co/v6PDRSSg/IMG-4376.jpg"  // 睡觉
+    "https://i.ibb.co/RTRM2Y5Z/IMG-4364.jpg",
+    "https://i.ibb.co/qLDQjN9f/IMG-4370.jpg",
+    "https://i.ibb.co/v6PDRSSg/IMG-4376.jpg"
   ],
   evening: [
-    "https://i.ibb.co/p6cXrycC/IMG-4372.jpg" // 傍晚
+    "https://i.ibb.co/p6cXrycC/IMG-4372.jpg"
   ],
   night: [
     "https://i.ibb.co/35m6d0j8/IMG-4374.jpg",
@@ -74,28 +68,26 @@ const UI_MAP = {
 
 // ===== 随机选图 =====
 function getRandomUI() {
-  const type = getTimeType();
-  const list = UI_MAP[type];
-  const index = Math.floor(Math.random() * list.length);
-  return list[index];
+  const type = getTimeType()
+  const list = UI_MAP[type]
+  const index = Math.floor(Math.random() * list.length)
+  return list[index]
 }
 
-// ===== 设置背景（只换第二层）=====
+// ===== 设置背景 =====
 function setBackground() {
-  const bg = getRandomUI();
-  document.body.style.backgroundImage = `
-    url("https://i.ibb.co/PzPCwYPM/IMG-4755.png"),
-    url(${bg})
-  `;
+  const bg = getRandomUI()
+  document.body.style.backgroundImage = `url(${bg})`
 }
 
 // ===== 初始加载 =====
-setBackground();
+setBackground()
 
 // ===== 每10分钟刷新 =====
 setInterval(() => {
-  setBackground();
-}, 10 * 60 * 1000);
+  setBackground()
+}, 10 * 60 * 1000)
+
 </script>
 
 </body>
