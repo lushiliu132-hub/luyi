@@ -37,7 +37,7 @@ body::before {
 
 /* 时钟样式 */
 #clock {
-  position: absolute;
+  position: fixed; /* 使用fixed定位以确保时钟浮动在页面顶部 */
   top: 10px;
   right: 10px;
   width: 150px;
@@ -53,6 +53,7 @@ body::before {
   align-items: center;
   padding: 10px;
   border-radius: 10px;
+  z-index: 9999; /* 确保时钟位于最前 */
 }
 
 #clock-time {
