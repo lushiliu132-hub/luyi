@@ -36,21 +36,68 @@ body::before {
   pointer-events: none; /* 不阻挡交互 */
 }
 
-/* 时钟图标样式 */
-#clockIcon {
+/* 时钟组件容器 */
+#clockWidget {
   position: fixed;
   top: 15px;
   right: 15px;
   z-index: 1000;
-  width: 280px;
+  width: 200px;
   height: auto;
 }
 
+#clockWidget img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 时间文字覆盖层 */
+.clock-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.date-text {
+  position: absolute;
+  top: 17%;
+  right: 12%;
+  font-family: "Microsoft YaHei", "SimHei", sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  color: #2c1810;
+  text-align: center;
+  min-width: 90px;
+}
+
+.time-text {
+  position: absolute;
+  top: 56%;
+  right: 11%;
+  font-family: "Arial", "Microsoft YaHei", sans-serif;
+  font-size: 16px;
+  font-weight: bold;
+  color: #2c1810;
+  letter-spacing: 1px;
+}
+
 @media (max-width: 600px) {
-  #clockIcon {
-    width: 200px;
+  #clockWidget {
+    width: 160px;
     top: 10px;
     right: 10px;
+  }
+  
+  .date-text {
+    font-size: 10px;
+  }
+  
+  .time-text {
+    font-size: 13px;
   }
 }
 </style>
@@ -58,9 +105,15 @@ body::before {
 </head>
 <body>
 
-<!-- 时钟图标 -->
+<!-- 时钟组件 -->
 
-<img src="" alt="时钟" id="clockIcon">
+<div id="clockWidget">
+  <img src="" alt="时钟" id="clockIcon">
+  <div class="clock-overlay">
+    <div class="date-text" id="dateText">星期一 02日</div>
+    <div class="time-text" id="timeText">上午 08:33</div>
+  </div>
+</div>
 
 <script>
 // ===== 时钟图标 =====
@@ -78,11 +131,26 @@ function getBeijingTime() {
   return beijingTime;
 }
 
-// 更新时钟图标
-function updateClockIcon() {
-  const hour = getBeijingTime().getHours();
-  const clockIcon = document.getElementById('clockIcon');
+// 格式化数字为两位数
+function padZero(num) {
+  return num.toString().padStart(2, '0');
+}
+
+// 获取星期几
+function getWeekDayText(day) {
+  const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+  return weekDays[day];
+}
+
+// 更新时钟显示
+function updateClock() {
+  const beijingTime = getBeijingTime();
+  const hour = beijingTime.getHours();
+  const minute = beijingTime.getMinutes();
+  const date = beijingTime.getDate();
+  const day = beijingTime.getDay();
   
+  // 更新图标
   let sceneType;
   if (hour >= 7 && hour < 15) {
     sceneType = 'day';
@@ -92,12 +160,23 @@ function updateClockIcon() {
     sceneType = 'night';
   }
   
+  const clockIcon = document.getElementById('clockIcon');
   clockIcon.src = CLOCK_ICONS[sceneType];
+  
+  // 更新日期文字（星期X XX日）
+  const dateText = document.getElementById('dateText');
+  dateText.textContent = `${getWeekDayText(day)} ${padZero(date)}日`;
+  
+  // 更新时间文字（上午/下午 HH:MM）
+  const timeText = document.getElementById('timeText');
+  const period = hour < 12 ? '上午' : '下午';
+  const displayHour = hour % 12 || 12; // 12小时制
+  timeText.textContent = `${period} ${padZero(displayHour)}:${padZero(minute)}`;
 }
 
-// 初始化和定时更新时钟图标
-updateClockIcon();
-setInterval(updateClockIcon, 60000); // 每分钟检查一次
+// 初始化和定时更新
+updateClock();
+setInterval(updateClock, 1000); // 每秒更新
 
 // 预加载图标
 Object.values(CLOCK_ICONS).forEach(url => {
