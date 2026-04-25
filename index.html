@@ -34,41 +34,129 @@ body::before {
   z-index: -1; /* 在主背景下层 */
   pointer-events: none; /* 不阻挡交互 */
 }
+
+/* 时钟容器 */
+.clock-widget {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* 时钟图标背景 */
+.clock-icon-bg {
+  width: 80px;
+  height: 80px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* 时间文本样式 */
+.clock-text {
+  color: white;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(0,0,0,0.8);
+  margin-top: 5px;
+}
+
+.weekday {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.date {
+  font-size: 12px;
+  margin: 2px 0;
+}
+
+.period {
+  font-size: 11px;
+  color: #aaa;
+}
+
+.time {
+  font-size: 24px;
+  font-weight: 300;
+  letter-spacing: 1px;
+}
+
+.percentage {
+  font-size: 11px;
+  color: #aaa;
+  margin-top: 2px;
+}
 </style>
 
 </head>
 <body>
 
-<script>
-// ===== 创建时钟图标 =====
-const clockIcon = document.createElement('img');
-clockIcon.style.position = 'fixed';
-clockIcon.style.top = '20px';
-clockIcon.style.right = '20px';
-clockIcon.style.zIndex = '9999';
-clockIcon.style.width = '80px';
-clockIcon.style.height = '80px';
-document.body.appendChild(clockIcon);
+<!-- 时钟组件 -->
+<div class="clock-widget" id="clockWidget">
+  <div class="clock-icon-bg" id="clockIconBg"></div>
+  <div class="clock-text">
+    <div class="weekday" id="weekdayText">星期二</div>
+    <div class="date" id="dateText">02日</div>
+    <div class="period" id="periodText">上午</div>
+    <div class="time" id="timeText">08:33</div>
+    <div class="percentage" id="percentageText">25%</div>
+  </div>
+</div>
 
-// ===== 更新时间图标 =====
-function updateClockIcon() {
-  const hour = new Date().getHours();
+<script>
+// ===== 时钟更新函数 =====
+function updateClock() {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
   
-  if (hour >= 7 && hour < 15) {
+  // 星期
+  const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+  const weekday = weekdays[now.getDay()];
+  
+  // 日期
+  const day = now.getDate();
+  const dateStr = day < 10 ? '0' + day + '日' : day + '日';
+  
+  // 时段判断（上午/下午）
+  const period = hours < 12 ? '上午' : '下午';
+  
+  // 时间格式
+  const timeStr = (hours < 10 ? '0' + hours : hours) + ':' + (minutes < 10 ? '0' + minutes : minutes);
+  
+  // 随机电量百分比（模拟）
+  const percentage = Math.floor(Math.random() * 30) + 20; // 20-49%
+  
+  // 更新文本
+  document.getElementById('weekdayText').textContent = weekday;
+  document.getElementById('dateText').textContent = dateStr;
+  document.getElementById('periodText').textContent = period;
+  document.getElementById('timeText').textContent = timeStr;
+  document.getElementById('percentageText').textContent = percentage + '%';
+  
+  // 根据时间切换图标背景
+  const iconBg = document.getElementById('clockIconBg');
+  if (hours >= 7 && hours < 15) {
     // 白天 (7:00-14:59)
-    clockIcon.src = 'https://i.ibb.co/sJCmM13V/IMG-4775.png';
-  } else if (hour >= 15 && hour < 19) {
+    iconBg.style.backgroundImage = "url('https://i.ibb.co/sJCmM13V/IMG-4775.png')";
+  } else if (hours >= 15 && hours < 19) {
     // 傍晚 (15:00-18:59)
-    clockIcon.src = 'https://i.ibb.co/xtdH3Mpt/IMG-4773.png';
+    iconBg.style.backgroundImage = "url('https://i.ibb.co/xtdH3Mpt/IMG-4773.png')";
   } else {
     // 晚上 (19:00-6:59)
-    clockIcon.src = 'https://i.ibb.co/bjfKnynR/IMG-4774.png';
+    iconBg.style.backgroundImage = "url('https://i.ibb.co/bjfKnynR/IMG-4774.png')";
   }
 }
 
-// 初始化并每分钟更新
-updateClockIcon();
-setInterval(updateClockIcon, 60000);
+// 初始更新
+updateClock();
+
+// 每分钟更新一次
+setInterval(updateClock, 60000);
 
 // ===== 时间判断 =====
 function getTimeType() {
