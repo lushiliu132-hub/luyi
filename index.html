@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>璐的小家</title>
+<title>璐小家</title>
 
 <style>
 body{
   margin:0;
   height:100vh;
-  position: relative;
+  position: relative; /* 让伪元素定位 */
 
   background-size: 100% auto;
   background-repeat: no-repeat;
@@ -19,20 +19,20 @@ body{
   transition:background-image 0.5s ease;
 }
 
-/* ✨ 修正：改用 ::after 并放到最底层 */
-body::after {
+/* ✨ 新增：底纹层 */
+body::before {
   content: '';
-  position: fixed; /* 改用 fixed 避免滚动问题 */
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-image: url('https://i.ibb.co/PzPCwYPM/IMG-4755.png');
-  background-repeat: repeat;
-  background-size: 200px; /* 调整图案大小 */
-  opacity: 0.3; /* 你可以调整这个值 0.1-0.5 */
-  z-index: -999; /* 确保在所有内容下方 */
-  pointer-events: none;
+  background-repeat: repeat; /* 平铺 */
+  background-size: auto; /* 保持原始尺寸 */
+  opacity: 0.15; /* 调整透明度，避免太抢眼 */
+  z-index: -1; /* 在主背景下层 */
+  pointer-events: none; /* 不阻挡交互 */
 }
 </style>
 
