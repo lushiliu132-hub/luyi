@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
@@ -10,7 +9,7 @@
 body{
   margin:0;
   height:100vh;
-  position: relative;
+  position: relative; /* 让伪元素定位 */
 
   background-size: 100% auto;
   background-repeat: no-repeat;
@@ -20,7 +19,7 @@ body{
   transition:background-image 0.5s ease;
 }
 
-/* 底纹层 */
+/* ✨ 新增：底纹层 */
 body::before {
   content: '';
   position: absolute;
@@ -29,241 +28,61 @@ body::before {
   width: 100%;
   height: 100%;
   background-image: url('https://i.ibb.co/PzPCwYPM/IMG-4755.png');
-  background-repeat: repeat;
-  background-size: auto;
-  opacity: 0.15;
-  z-index: -1;
-  pointer-events: none;
+  background-repeat: repeat; /* 平铺 */
+  background-size: auto; /* 保持原始尺寸 */
+  opacity: 0.15; /* 调整透明度，避免太抢眼 */
+  z-index: -1; /* 在主背景下层 */
+  pointer-events: none; /* 不阻挡交互 */
 }
 
-/* ===== 时钟组件样式 ===== */
-.clock-widget {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  z-index: 1000;
-  background: #d4a574;
-  border: 4px solid #8b4513;
-  border-radius: 12px;
-  padding: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  min-width: 180px;
-}
-
-.clock-header {
-  background: #f4e4c1;
-  border: 2px solid #8b4513;
-  border-radius: 8px;
-  padding: 6px 8px;
-  margin-bottom: 8px;
+/* 时钟样式 */
+#clock {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 150px;
+  height: 100px;
+  background-size: cover;
   text-align: center;
-  font-weight: bold;
-  color: #5d3a1a;
-  font-size: 13px;
-  font-family: "Microsoft YaHei", Arial, sans-serif;
-}
-
-.clock-body {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #e6d5b8;
-  border: 2px solid #8b4513;
-  border-radius: 8px;
-  padding: 8px;
-}
-
-.scene-icon {
-  width: 55px;
-  height: 55px;
-  object-fit: contain;
-  flex-shrink: 0;
-  border-radius: 6px;
-}
-
-.time-info {
-  flex: 1;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  color: #fff;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-}
-
-.time-row {
-  background: #f9f3e8;
-  border: 1px solid #8b4513;
-  border-radius: 4px;
-  padding: 3px 6px;
-  font-size: 11px;
-  color: #5d3a1a;
-  display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 4px;
-  font-family: "Microsoft YaHei", Arial, sans-serif;
-}
-
-.time-label {
-  font-weight: bold;
-  min-width: 45px;
-}
-
-.time-value {
-  font-family: "Courier New", monospace;
-  font-weight: bold;
-  color: #8b4513;
-  font-size: 12px;
-}
-
-/* 移动端适配 */
-@media (max-width: 600px) {
-  .clock-widget {
-    top: 10px;
-    right: 10px;
-    min-width: 160px;
-    padding: 8px;
-  }
-  
-  .scene-icon {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .clock-header {
-    font-size: 12px;
-    padding: 5px 6px;
-  }
-  
-  .time-row {
-    font-size: 10px;
-  }
-  
-  .time-value {
-    font-size: 11px;
-  }
-}
-
-/* 状态框样式优化 */
-#statusBox {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  padding: 10px 15px;
-  background: rgba(0, 0, 0, 0.7);
-  color: #fff;
+  padding: 10px;
   border-radius: 10px;
+}
+
+#clock-time {
+  font-size: 18px;
+}
+
+#clock-date {
   font-size: 14px;
-  font-family: "Microsoft YaHei", Arial, sans-serif;
-  z-index: 999;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  line-height: 1.6;
 }
 </style>
 
 </head>
 <body>
 
-<!-- 时钟组件 -->
-
-<div class="clock-widget" id="clockWidget">
-  <div class="clock-header" id="dateDisplay">
-    加载中...
-  </div>
-  <div class="clock-body">
-    <img src="" alt="场景图标" class="scene-icon" id="sceneIcon">
-    <div class="time-info">
-      <div class="time-row">
-        <span class="time-label">时间xx:</span>
-        <span class="time-value" id="timeDisplay">--:--</span>
-      </div>
-      <div class="time-row" style="font-size: 9px; color: #888;">
-        <span>(24小时制)</span>
-      </div>
-    </div>
-  </div>
+<div id="clock">
+  <div id="clock-time"></div>
+  <div id="clock-date"></div>
 </div>
 
 <script>
-// ===== 时钟组件功能 =====
-const SCENE_ICONS = {
-  night: 'https://i.ibb.co/sJCmM13V/IMG-4775.png',   // 晚上 19:00-6:59
-  day: 'https://i.ibb.co/bjfKnynR/IMG-4774.png',     // 白天 7:00-14:59
-  evening: 'https://i.ibb.co/xtdH3Mpt/IMG-4773.png'  // 傍晚 15:00-18:59
-};
-
-// 获取北京时间
-function getBeijingTime() {
-  const now = new Date();
-  const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
-  const beijingTime = new Date(utc + (3600000 * 8));
-  return beijingTime;
-}
-
-// 根据小时获取场景类型（与背景切换逻辑一致）
-function getClockSceneType(hour) {
-  if (hour >= 7 && hour < 15) {
-    return 'day';      // 白天 7:00-14:59
-  } else if (hour >= 15 && hour < 19) {
-    return 'evening';  // 傍晚 15:00-18:59
-  } else {
-    return 'night';    // 晚上 19:00-6:59
-  }
-}
-
-// 格式化数字为两位数
-function padZero(num) {
-  return num.toString().padStart(2, '0');
-}
-
-// 获取星期几的中文
-function getWeekDay(day) {
-  const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-  return weekDays[day];
-}
-
-// 更新时钟显示
-function updateClock() {
-  const beijingTime = getBeijingTime();
-  
-  const month = beijingTime.getMonth() + 1;
-  const date = beijingTime.getDate();
-  const day = beijingTime.getDay();
-  const hour = beijingTime.getHours();
-  const minute = beijingTime.getMinutes();
-  
-  // 更新日期显示
-  const dateDisplay = document.getElementById('dateDisplay');
-  dateDisplay.textContent = `${month}月${date}日 ${getWeekDay(day)}`;
-  
-  // 更新时间显示
-  const timeDisplay = document.getElementById('timeDisplay');
-  timeDisplay.textContent = `${padZero(hour)}:${padZero(minute)}`;
-  
-  // 更新场景图标
-  const sceneType = getClockSceneType(hour);
-  const sceneIcon = document.getElementById('sceneIcon');
-  sceneIcon.src = SCENE_ICONS[sceneType];
-  sceneIcon.alt = sceneType === 'day' ? '白天' : sceneType === 'evening' ? '傍晚' : '晚上';
-}
-
-// 初始化时钟
-updateClock();
-setInterval(updateClock, 1000); // 每秒更新
-
-// 预加载所有时钟图标
-Object.values(SCENE_ICONS).forEach(url => {
-  const img = new Image();
-  img.src = url;
-});
-
-// ===== 原有的时间判断（使用北京时间） =====
+// ===== 时间判断 =====
 function getTimeType() {
-  const hour = getBeijingTime().getHours();
+  const hour = new Date().getHours()
 
   if (hour >= 7 && hour < 15) {
-    return "day";
+    return "day"
   } else if (hour >= 15 && hour < 19) {
-    return "evening";
+    return "evening"
   } else {
-    return "night";
+    return "night"
   }
 }
 
@@ -282,153 +101,203 @@ const UI_MAP = {
     "https://i.ibb.co/fzPDWPVV/IMG-4790.jpg",
     "https://i.ibb.co/1Yx4Z9YX/IMG-4791.jpg"
   ]
-};
+}
 
 // ===== 随机选图 =====
 function getRandomUI() {
-  const type = getTimeType();
-  const list = UI_MAP[type];
-  const index = Math.floor(Math.random() * list.length);
-  return list[index];
+  const type = getTimeType()
+  const list = UI_MAP[type]
+  const index = Math.floor(Math.random() * list.length)
+  return list[index]
 }
 
 // ===== 设置背景 =====
 function setBackground() {
-  const bg = getRandomUI();
-  document.body.style.backgroundImage = `url(${bg})`;
+  const bg = getRandomUI()
+  document.body.style.backgroundImage = `url(${bg})`
 }
 
 // ===== 初始加载 =====
-setBackground();
+setBackground()
 
-// ===== 每10分钟刷新背景 =====
+// ===== 每10分钟刷新 =====
+update()
+setInterval(update, 30 * 60 * 1000)
 setInterval(() => {
-  setBackground();
-}, 10 * 60 * 1000);
+  setBackground()
+}, 10 * 60 * 1000)
 
 // ===== 状态数值 =====
-let mood = 70;      // 心情
-let energy = 60;    // 精力
-let hunger = 50;    // 饥饿
-let sleepiness = 30; // 困意
+let mood = 70      // 心情
+let energy = 60    // 精力
+let hunger = 50    // 饥饿
+let sleepiness = 30 // 困意
 
 // ===== 时间影响 =====
 function updateStatusByTime() {
-  const hour = getBeijingTime().getHours();
+  const hour = new Date().getHours()
 
   // 早上心情低
   if (hour >= 7 && hour <= 9) {
-    mood -= 10;
-    sleepiness += 20;
+    mood -= 10
+    sleepiness += 20
   }
 
   // 晚上困意增加
   if (hour >= 22) {
-    sleepiness += 15;
+    sleepiness += 15
   }
 
   // 饥饿时间段
   if ((hour >= 11 && hour <= 13) || (hour >= 18 && hour <= 19)) {
-    hunger += 20;
+    hunger += 20
   }
 
   // 限制范围
-  mood = Math.max(-30, Math.min(100, mood));
-  energy = Math.max(0, Math.min(100, energy));
-  hunger = Math.max(0, Math.min(100, hunger));
-  sleepiness = Math.max(0, Math.min(100, sleepiness));
+  mood = Math.max(-30, Math.min(100, mood))
+  energy = Math.max(0, Math.min(100, energy))
+  hunger = Math.max(0, Math.min(100, hunger))
+  sleepiness = Math.max(0, Math.min(100, sleepiness))
 }
 
 // 初始化一次
-updateStatusByTime();
-
-// 点击交互
+updateStatusByTime()
 document.body.addEventListener("click", () => {
-  const action = Math.floor(Math.random() * 3);
+
+  const action = Math.floor(Math.random() * 3)
 
   if (action === 0) {
     // 吃饭
-    hunger -= 20;
-    mood += 5;
+    hunger -= 20
+    mood += 5
   } else if (action === 1) {
     // 睡觉
-    sleepiness -= 30;
-    energy += 20;
+    sleepiness -= 30
+    energy += 20
   } else {
     // 摸鱼
-    mood += 10;
-    energy -= 5;
+    mood += 10
+    energy -= 5
   }
 
-  updateStatusByTime();
-  showStatus();
-  showMoodIcon();
-});
-
-// 显示状态
+  updateStatusByTime()
+  showStatus()
+})
 function showStatus() {
-  let box = document.getElementById("statusBox");
+  let box = document.getElementById("statusBox")
 
   if (!box) {
-    box = document.createElement("div");
-    box.id = "statusBox";
-    document.body.appendChild(box);
+    box = document.createElement("div")
+    box.id = "statusBox"
+    box.style.position = "fixed"
+    box.style.top = "20px"
+    box.style.left = "20px"
+    box.style.padding = "10px 15px"
+    box.style.background = "rgba(0,0,0,0.5)"
+    box.style.color = "#fff"
+    box.style.borderRadius = "10px"
+    box.style.fontSize = "14px"
+    document.body.appendChild(box)
   }
 
   box.innerHTML = `
-    心情：${mood}<br>
-    精力：${energy}<br>
-    饥饿：${hunger}<br>
-    困意：${sleepiness}
-  `;
+  心情：${mood}<br>
+  精力：${energy}<br>
+  饥饿：${hunger}<br>
+  困意：${sleepiness}
+  `
 }
 
-// 初始显示状态
-showStatus();
-
-// 显示心情图标动画
+// 初始显示
+showStatus()
 function showMoodIcon() {
-  const icon = document.createElement("div");
-  icon.style.position = "fixed";
-  icon.style.top = "50%";
-  icon.style.left = "50%";
-  icon.style.transform = "translate(-50%, -50%)";
-  icon.style.fontSize = "60px";
-  icon.style.transition = "all 0.5s ease";
-  icon.style.zIndex = "9999";
-  icon.style.pointerEvents = "none";
+  const icon = document.createElement("div")
+  icon.style.position = "fixed"
+  icon.style.top = "120px"
+  icon.style.left = "50%"
+  icon.style.transform = "translateX(-50%)"
+  icon.style.fontSize = "30px"
+  icon.style.transition = "0.5s"
 
   if (mood > 80) {
-    icon.innerText = "❤️";
+    icon.innerText = "❤️"
   } else if (mood > 50) {
-    icon.innerText = "😊";
+    icon.innerText = "😊"
   } else if (mood > 20) {
-    icon.innerText = "😐";
+    icon.innerText = "😐"
   } else {
-    icon.innerText = "💧";
+    icon.innerText = "💧"
   }
 
-  document.body.appendChild(icon);
+  document.body.appendChild(icon)
 
   setTimeout(() => {
-    icon.style.opacity = "0";
-    icon.style.transform = "translate(-50%, -70%) scale(1.5)";
-  }, 100);
+    icon.remove()
+  }, 1500)
+}
+  // 创建心情图标
+let moodIcon = document.createElement('img');
+moodIcon.style.position = 'absolute';
+moodIcon.style.zIndex = '9999'; // 保证在前面
+document.body.appendChild(moodIcon);
 
-  setTimeout(() => {
-    icon.remove();
-  }, 1500);
+// 更新心情图标位置（设置在人物头部）
+function updateMoodIcon() {
+  // 获取人物的位置
+  const character = document.querySelector('.character'); // 假设人物的class是.character
+  const characterRect = character.getBoundingClientRect();
+  
+  // 更新心情图标位置
+  moodIcon.style.left = `${characterRect.left + characterRect.width / 2 - moodIcon.width / 2}px`;
+  moodIcon.style.top = `${characterRect.top - moodIcon.height - 10}px`; // 在头顶10px位置
 }
 
-// ===== 定期更新状态 =====
+// 根据心情值设置图标
+function updateMoodIconBasedOnStatus() {
+  if (mood > 70) {
+    moodIcon.src = "https://example.com/heart-icon.png";  // 高心情，显示心形图标
+  } else if (mood > 40) {
+    moodIcon.src = "https://example.com/smile-icon.png"; // 中等心情，显示笑脸图标
+  } else {
+    moodIcon.src = "https://example.com/sad-icon.png"; // 低心情，显示哭脸图标
+  }
+}
+
+// 在每次更新心情时更新图标
 function update() {
-  updateStatusByTime();
-  showStatus();
+  updateMoodIconBasedOnStatus();
+  updateMoodIcon();
 }
 
-// 每30分钟更新一次状态
-setInterval(update, 30 * 60 * 1000);
+// 调用：每30分钟（30 * 60 * 1000毫秒）更新一次
+setInterval(update, 30 * 60 * 1000); // 每半小时更新一次
 
+
+// ===== 时间判断 =====
+function updateClock() {
+  const now = new Date();
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const date = now.toLocaleDateString('zh-CN', { weekday: 'long', month: '2-digit', day: '2-digit' });
+  
+  // 根据当前时间确定时段并更新背景图
+  let timeOfDayIcon;
+  if (hours >= 19 || hours < 7) {
+    timeOfDayIcon = 'url(https://i.ibb.co/sJCmM13V/IMG-4775.png)'; // 晚上
+  } else if (hours >= 7 && hours < 15) {
+    timeOfDayIcon = 'url(https://i.ibb.co/xtdH3Mpt/IMG-4773.png)'; // 白天
+  } else if (hours >= 15 && hours < 19) {
+    timeOfDayIcon = 'url(https://i.ibb.co/bjfKnynR/IMG-4774.png)'; // 傍晚
+  }
+
+  // 更新时钟的显示内容
+  document.getElementById('clock').style.backgroundImage = timeOfDayIcon;
+  document.getElementById('clock-time').textContent = `${hours}:${minutes < 10 ? '0' + minutes : minutes}`;
+  document.getElementById('clock-date').textContent = date;
+}
+
+setInterval(updateClock, 1000); // 每秒更新一次
+updateClock(); // 初始化时钟
 </script>
 
 </body>
