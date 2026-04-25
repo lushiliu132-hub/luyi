@@ -34,27 +34,42 @@ body::before {
   z-index: -1; /* 在主背景下层 */
   pointer-events: none; /* 不阻挡交互 */
 }
-
-/* 时钟图标样式 - 右上角显示 */
-#clockIcon {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 9999;
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  transition: all 0.5s ease;
-}
 </style>
 
 </head>
 <body>
 
-<!-- 时钟图标 - 根据时间切换图片 -->
-<img id="clockIcon" src="https://i.ibb.co/sJCmM13V/IMG-4775.png" alt="时钟">
-
 <script>
+// ===== 创建时钟图标 =====
+const clockIcon = document.createElement('img');
+clockIcon.style.position = 'fixed';
+clockIcon.style.top = '20px';
+clockIcon.style.right = '20px';
+clockIcon.style.zIndex = '9999';
+clockIcon.style.width = '80px';
+clockIcon.style.height = '80px';
+document.body.appendChild(clockIcon);
+
+// ===== 更新时间图标 =====
+function updateClockIcon() {
+  const hour = new Date().getHours();
+  
+  if (hour >= 7 && hour < 15) {
+    // 白天 (7:00-14:59)
+    clockIcon.src = 'https://i.ibb.co/sJCmM13V/IMG-4775.png';
+  } else if (hour >= 15 && hour < 19) {
+    // 傍晚 (15:00-18:59)
+    clockIcon.src = 'https://i.ibb.co/xtdH3Mpt/IMG-4773.png';
+  } else {
+    // 晚上 (19:00-6:59)
+    clockIcon.src = 'https://i.ibb.co/bjfKnynR/IMG-4774.png';
+  }
+}
+
+// 初始化并每分钟更新
+updateClockIcon();
+setInterval(updateClockIcon, 60000);
+
 // ===== 时间判断 =====
 function getTimeType() {
   const hour = new Date().getHours()
@@ -67,30 +82,6 @@ function getTimeType() {
     return "night"
   }
 }
-
-// ===== 时钟图标更新 =====
-function updateClockIcon() {
-  const iconElement = document.getElementById('clockIcon');
-  const hour = new Date().getHours();
-  
-  // 根据北京时间判断时段并切换对应图片
-  if (hour >= 7 && hour < 15) {
-    // 白天 (7:00-14:59)
-    iconElement.src = 'https://i.ibb.co/sJCmM13V/IMG-4775.png';
-  } else if (hour >= 15 && hour < 19) {
-    // 傍晚 (15:00-18:59)
-    iconElement.src = 'https://i.ibb.co/xtdH3Mpt/IMG-4773.png';
-  } else {
-    // 晚上 (19:00-6:59)
-    iconElement.src = 'https://i.ibb.co/bjfKnynR/IMG-4774.png';
-  }
-}
-
-// 初始更新时钟图标
-updateClockIcon();
-
-// 每分钟检查一次并更新时钟图标
-setInterval(updateClockIcon, 60000);
 
 // ===== UI图片 =====
 const UI_MAP = {
@@ -129,10 +120,11 @@ setBackground()
 // ===== 每10分钟刷新 =====
 update()
 setInterval(update, 30 * 60 * 1000)
-  setInterval(() => {
+setInterval(() => {
   setBackground()
 }, 10 * 60 * 1000)
-  // ===== 状态数值 =====
+  
+// ===== 状态数值 =====
 let mood = 70      // 心情
 let energy = 60    // 精力
 let hunger = 50    // 饥饿
@@ -167,8 +159,8 @@ function updateStatusByTime() {
 
 // 初始化一次
 updateStatusByTime()
-document.body.addEventListener("click", () => {
 
+document.body.addEventListener("click", () => {
   const action = Math.floor(Math.random() * 3)
 
   if (action === 0) {
@@ -188,6 +180,7 @@ document.body.addEventListener("click", () => {
   updateStatusByTime()
   showStatus()
 })
+
 function showStatus() {
   let box = document.getElementById("statusBox")
 
@@ -215,6 +208,7 @@ function showStatus() {
 
 // 初始显示
 showStatus()
+
 function showMoodIcon() {
   const icon = document.createElement("div")
   icon.style.position = "fixed"
@@ -240,43 +234,39 @@ function showMoodIcon() {
     icon.remove()
   }, 1500)
 }
-  // 创建心情图标
+
+// 创建心情图标
 let moodIcon = document.createElement('img');
 moodIcon.style.position = 'absolute';
-moodIcon.style.zIndex = '9999'; // 保证在前面
+moodIcon.style.zIndex = '9999';
 document.body.appendChild(moodIcon);
 
-// 更新心情图标位置（设置在人物头部）
+// 更新心情图标位置
 function updateMoodIcon() {
-  // 获取人物的位置
-  const character = document.querySelector('.character'); // 假设人物的class是.character
+  const character = document.querySelector('.character');
   const characterRect = character.getBoundingClientRect();
   
-  // 更新心情图标位置
   moodIcon.style.left = `${characterRect.left + characterRect.width / 2 - moodIcon.width / 2}px`;
-  moodIcon.style.top = `${characterRect.top - moodIcon.height - 10}px`; // 在头顶10px位置
+  moodIcon.style.top = `${characterRect.top - moodIcon.height - 10}px`;
 }
 
 // 根据心情值设置图标
 function updateMoodIconBasedOnStatus() {
   if (mood > 70) {
-    moodIcon.src = "https://example.com/heart-icon.png";  // 高心情，显示心形图标
+    moodIcon.src = "https://example.com/heart-icon.png";
   } else if (mood > 40) {
-    moodIcon.src = "https://example.com/smile-icon.png"; // 中等心情，显示笑脸图标
+    moodIcon.src = "https://example.com/smile-icon.png";
   } else {
-    moodIcon.src = "https://example.com/sad-icon.png"; // 低心情，显示哭脸图标
+    moodIcon.src = "https://example.com/sad-icon.png";
   }
 }
 
-// 在每次更新心情时更新图标
 function update() {
   updateMoodIconBasedOnStatus();
   updateMoodIcon();
 }
 
-// 调用：每30分钟（30 * 60 * 1000毫秒）更新一次
-setInterval(update, 30 * 60 * 1000); // 每半小时更新一次
-
+setInterval(update, 30 * 60 * 1000);
 </script>
 
 </body>
