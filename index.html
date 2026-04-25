@@ -1,244 +1,149 @@
 <!DOCTYPE html>
 <html lang="zh">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>璐小家</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>璐小家</title>
 
-<style>
-body{
-  margin:0;
-  height:100vh;
-  position: relative; /* 让伪元素定位 */
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      position: relative;
+      background-size: 100% auto;
+      background-repeat: no-repeat;
+      background-position: center top;
+      background-color: #000;
+      transition: background-image 0.5s ease;
+    }
 
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  background-position: center top;
-  background-color: #000;
+    .character {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 260px;
+      z-index: 10;
+      cursor: pointer;
+    }
 
-  transition:background-image 0.5s ease;
-}
-
-/* ✨ 新增：底纹层 */
-body::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('https://i.ibb.co/PzPCwYPM/IMG-4755.png');
-  background-repeat: repeat; /* 平铺 */
-  background-size: auto; /* 保持原始尺寸 */
-  opacity: 0.15; /* 调整透明度，避免太抢眼 */
-  z-index: -1; /* 在主背景下层 */
-  pointer-events: none; /* 不阻挡交互 */
-}
-</style>
-
+    /* ✨ 新增：底纹层 */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://i.ibb.co/PzPCwYPM/IMG-4755.png');
+      background-repeat: repeat; /* 平铺 */
+      background-size: auto; /* 保持原始尺寸 */
+      opacity: 0.15; /* 调整透明度，避免太抢眼 */
+      z-index: -1; /* 在主背景下层 */
+      pointer-events: none; /* 不阻挡交互 */
+    }
+  </style>
 </head>
 <body>
 
-<script>
-// ===== 时间判断 =====
-function getTimeType() {
-  const hour = new Date().getHours()
+  <!-- 白天人物 -->
+  <img src="https://i.ibb.co/0RKzx2Y4/IMG-4364.jpg" class="character" id="character-day" alt="白天人物" />
 
-  if (hour >= 7 && hour < 15) {
-    return "day"
-  } else if (hour >= 15 && hour < 19) {
-    return "evening"
-  } else {
-    return "night"
-  }
-}
+  <script>
+    let currentActionDay = 'stand';  // 默认人物是站立的状态
+    const characterDay = document.getElementById('character-day');
 
-// ===== UI图片 =====
-const UI_MAP = {
-  day: [
-    "https://i.ibb.co/RTRM2Y5Z/IMG-4364.jpg",
-    "https://i.ibb.co/qLDQjN9f/IMG-4370.jpg",
-    "https://i.ibb.co/v6PDRSSg/IMG-4376.jpg"
-  ],
-  evening: [
-    "https://i.ibb.co/p6cXrycC/IMG-4372.jpg"
-  ],
-  night: [
-    "https://i.ibb.co/35m6d0j8/IMG-4374.jpg",
-    "https://i.ibb.co/p6yjz7jy/IMG-4373.jpg",
-    "https://i.ibb.co/YTkBwMfs/IMG-4377.jpg"
-  ]
-}
+    // 点击人物时切换动作
+    characterDay.addEventListener('click', () => {
+      if (currentActionDay === 'stand') {
+        characterDay.src = 'https://i.ibb.co/p6SL0Rmg/IMG-4370.jpg';  // 吃饭
+        currentActionDay = 'eat';
+      } else if (currentActionDay === 'eat') {
+        characterDay.src = 'https://i.ibb.co/gL8FRBXk/IMG-4376.jpg';  // 睡觉
+        currentActionDay = 'sleep';
+      } else {
+        characterDay.src = 'https://i.ibb.co/0RKzx2Y4/IMG-4364.jpg';  // 站立
+        currentActionDay = 'stand';
+      }
+    });
+  </script>
 
-// ===== 随机选图 =====
-function getRandomUI() {
-  const type = getTimeType()
-  const list = UI_MAP[type]
-  const index = Math.floor(Math.random() * list.length)
-  return list[index]
-}
+  <!-- 傍晚人物 -->
+  <img src="https://i.ibb.co/dsrzk95k/IMG-4372.jpg" class="character" id="character-evening" alt="傍晚人物" />
 
-// ===== 设置背景 =====
-function setBackground() {
-  const bg = getRandomUI()
-  document.body.style.backgroundImage = `url(${bg})`
-}
+  <script>
+    // 傍晚人物固定状态，不切换
+    function setEveningState() {
+      const characterEvening = document.getElementById('character-evening');
+      characterEvening.src = 'https://i.ibb.co/dsrzk95k/IMG-4372.jpg';  // 傍晚人物图
+    }
 
-// ===== 初始加载 =====
-setBackground()
+    // 傍晚状态锁定
+    setEveningState();
+  </script>
 
-// ===== 每10分钟刷新 =====
-update()
-setInterval(update, 30 * 60 * 1000)
-  setInterval(() => {
-  setBackground()
-}, 10 * 60 * 1000)
-  // ===== 状态数值 =====
-let mood = 70      // 心情
-let energy = 60    // 精力
-let hunger = 50    // 饥饿
-let sleepiness = 30 // 困意
+  <!-- 晚上人物 -->
+  <img src="https://i.ibb.co/F49f7mGX/IMG-4374.jpg" class="character" id="character-night" alt="晚上的人物" />
 
-// ===== 时间影响 =====
-function updateStatusByTime() {
-  const hour = new Date().getHours()
+  <script>
+    let currentActionNight = 'stand';  // 默认人物是站立的状态
+    const characterNight = document.getElementById('character-night');
 
-  // 早上心情低
-  if (hour >= 7 && hour <= 9) {
-    mood -= 10
-    sleepiness += 20
-  }
+    // 点击人物时切换动作
+    characterNight.addEventListener('click', () => {
+      if (currentActionNight === 'stand') {
+        characterNight.src = 'https://i.ibb.co/p6SL0Rmg/IMG-4370.jpg';  // 吃饭
+        currentActionNight = 'eat';
+      } else if (currentActionNight === 'eat') {
+        characterNight.src = 'https://i.ibb.co/WNF0BBts/IMG-4377.jpg';  // 睡觉
+        currentActionNight = 'sleep';
+      } else {
+        characterNight.src = 'https://i.ibb.co/F49f7mGX/IMG-4374.jpg';  // 站立
+        currentActionNight = 'stand';
+      }
+    });
+  </script>
 
-  // 晚上困意增加
-  if (hour >= 22) {
-    sleepiness += 15
-  }
+  <script>
+    // ===== 心情图标 =====
+    let moodIcon = document.createElement('div');
+    moodIcon.style.position = 'absolute';
+    moodIcon.style.zIndex = '9999';
+    moodIcon.style.fontSize = '30px';
+    document.body.appendChild(moodIcon);
 
-  // 饥饿时间段
-  if ((hour >= 11 && hour <= 13) || (hour >= 18 && hour <= 19)) {
-    hunger += 20
-  }
+    let mood = 70;  // 心情
 
-  // 限制范围
-  mood = Math.max(-30, Math.min(100, mood))
-  energy = Math.max(0, Math.min(100, energy))
-  hunger = Math.max(0, Math.min(100, hunger))
-  sleepiness = Math.max(0, Math.min(100, sleepiness))
-}
+    // 获取人物位置并更新心情图标位置
+    function updateMoodIcon() {
+      const character = document.querySelector('.character');
+      const rect = character.getBoundingClientRect();
 
-// 初始化一次
-updateStatusByTime()
-document.body.addEventListener("click", () => {
+      moodIcon.style.left = `${rect.left + rect.width / 2 - moodIcon.offsetWidth / 2}px`;
+      moodIcon.style.top = `${rect.top - moodIcon.offsetHeight - 10}px`; // 图标显示在头顶10px的位置
+    }
 
-  const action = Math.floor(Math.random() * 3)
+    // 根据心情值设置图标
+    function updateMoodIconBasedOnStatus() {
+      if (mood > 70) {
+        moodIcon.innerText = "❤️";
+      } else if (mood > 50) {
+        moodIcon.innerText = "😊";
+      } else if (mood > 20) {
+        moodIcon.innerText = "😐";
+      } else {
+        moodIcon.innerText = "💧";
+      }
+    }
 
-  if (action === 0) {
-    // 吃饭
-    hunger -= 20
-    mood += 5
-  } else if (action === 1) {
-    // 睡觉
-    sleepiness -= 30
-    energy += 20
-  } else {
-    // 摸鱼
-    mood += 10
-    energy -= 5
-  }
+    // 定时更新心情图标
+    function update() {
+      updateMoodIconBasedOnStatus();
+      updateMoodIcon();
+    }
 
-  updateStatusByTime()
-  showStatus()
-})
-function showStatus() {
-  let box = document.getElementById("statusBox")
-
-  if (!box) {
-    box = document.createElement("div")
-    box.id = "statusBox"
-    box.style.position = "fixed"
-    box.style.top = "20px"
-    box.style.left = "20px"
-    box.style.padding = "10px 15px"
-    box.style.background = "rgba(0,0,0,0.5)"
-    box.style.color = "#fff"
-    box.style.borderRadius = "10px"
-    box.style.fontSize = "14px"
-    document.body.appendChild(box)
-  }
-
-  box.innerHTML = `
-  心情：${mood}<br>
-  精力：${energy}<br>
-  饥饿：${hunger}<br>
-  困意：${sleepiness}
-  `
-}
-
-// 初始显示
-showStatus()
-function showMoodIcon() {
-  const icon = document.createElement("div")
-  icon.style.position = "fixed"
-  icon.style.top = "120px"
-  icon.style.left = "50%"
-  icon.style.transform = "translateX(-50%)"
-  icon.style.fontSize = "30px"
-  icon.style.transition = "0.5s"
-
-  if (mood > 80) {
-    icon.innerText = "❤️"
-  } else if (mood > 50) {
-    icon.innerText = "😊"
-  } else if (mood > 20) {
-    icon.innerText = "😐"
-  } else {
-    icon.innerText = "💧"
-  }
-
-  document.body.appendChild(icon)
-
-  setTimeout(() => {
-    icon.remove()
-  }, 1500)
-}
-  // 创建心情图标
-let moodIcon = document.createElement('img');
-moodIcon.style.position = 'absolute';
-moodIcon.style.zIndex = '9999'; // 保证在前面
-document.body.appendChild(moodIcon);
-
-// 更新心情图标位置（设置在人物头部）
-function updateMoodIcon() {
-  // 获取人物的位置
-  const character = document.querySelector('.character'); // 假设人物的class是.character
-  const characterRect = character.getBoundingClientRect();
-  
-  // 更新心情图标位置
-  moodIcon.style.left = `${characterRect.left + characterRect.width / 2 - moodIcon.width / 2}px`;
-  moodIcon.style.top = `${characterRect.top - moodIcon.height - 10}px`; // 在头顶10px位置
-}
-
-// 根据心情值设置图标
-function updateMoodIconBasedOnStatus() {
-  if (mood > 70) {
-    moodIcon.src = "https://example.com/heart-icon.png";  // 高心情，显示心形图标
-  } else if (mood > 40) {
-    moodIcon.src = "https://example.com/smile-icon.png"; // 中等心情，显示笑脸图标
-  } else {
-    moodIcon.src = "https://example.com/sad-icon.png"; // 低心情，显示哭脸图标
-  }
-}
-
-// 在每次更新心情时更新图标
-function update() {
-  updateMoodIconBasedOnStatus();
-  updateMoodIcon();
-}
-
-// 调用：每30分钟（30 * 60 * 1000毫秒）更新一次
-setInterval(update, 30 * 60 * 1000); // 每半小时更新一次
-
-</script>
+    setInterval(update, 30 * 60 * 1000);  // 每30分钟更新一次心情图标
+  </script>
 
 </body>
 </html>
