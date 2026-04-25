@@ -1,9 +1,10 @@
+id="fix_ui"}
 <!DOCTYPE html>
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<title>Kimi风生活模拟</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kimi生活模拟</title>
 
 <style>
 body{
@@ -12,42 +13,31 @@ font-family:-apple-system,BlinkMacSystemFont;
 background:#f5f5f5;
 }
 
-/* 顶部栏 /
 .header{
 background:white;
-padding:12px;
+padding:15px;
+font-size:18px;
 font-weight:bold;
 border-bottom:1px solid #ddd;
 }
 
-/ 卡片 /
 .card{
 background:white;
-margin:10px;
+margin:12px;
 padding:15px;
 border-radius:12px;
-box-shadow:0 2px 5px rgba(0,0,0,0.05);
+box-shadow:0 2px 6px rgba(0,0,0,0.05);
 }
 
-/ 状态 /
-.status span{
-display:block;
-margin:5px 0;
-}
-
-/ 按钮 /
 .btn{
-display:block;
 margin-top:10px;
 padding:10px;
 background:#4CAF50;
 color:white;
 text-align:center;
 border-radius:8px;
-cursor:pointer;
 }
 
-/ 弹窗 */
 .popup{
 position:fixed;
 bottom:0;
@@ -57,7 +47,6 @@ padding:20px;
 border-top-left-radius:15px;
 border-top-right-radius:15px;
 display:none;
-box-shadow:0 -2px 10px rgba(0,0,0,0.1);
 }
 </style>
 </head>
@@ -66,15 +55,15 @@ box-shadow:0 -2px 10px rgba(0,0,0,0.1);
 
 <div class="header">Kimi生活模拟</div>
 
-<div class="card status">
-<span>心情: <b id="mood"></b></span>
-<span>疲惫: <b id="tired"></b></span>
-<span>困意: <b id="sleepy"></b></span>
-<span>饥饿: <b id="hungry"></b></span>
+<div class="card">
+心情: <span id="mood">50</span><br>
+疲惫: <span id="tired">50</span><br>
+困意: <span id="sleepy">50</span><br>
+饥饿: <span id="hungry">50</span>
 </div>
 
 <div class="card">
-<div class="btn" onclick="start()">外出</div>
+<div class="btn" onclick="out()">外出</div>
 <div class="btn" onclick="chat()">微信聊天</div>
 <div class="btn" onclick="eat()">点外卖</div>
 </div>
@@ -92,63 +81,15 @@ hungryTxt.innerText=hungry;
 }
 
 function show(text){
-let p=document.getElementById("popup");
-p.innerHTML=text+"<br><div class='btn' onclick='closePop()'>关闭</div>";
-p.style.display="block";
+popup.innerHTML=text+"<br><div class='btn' onclick='closePop()'>关闭</div>";
+popup.style.display="block";
 }
 
 function closePop(){popup.style.display="none"}
 
-// 外出
-function start(){
-if(Math.random()<0.6){
-show("不想上课 😫<br><div class='btn' onclick='skip()'>旷课</div><div class='btn' onclick='go()'>去上课</div>");
-}else go();
-}
-
-function skip(){
-if(Math.random()<0.5){
-mood-=20;
-show("被抓 😭");
-}else{
-mood+=20;
-tired-=10;
-show("没被发现 😎");
-}
-update();
-}
-
-function go(){
-tired+=10;
-show("上课中 😑");
-update();
-}
-
-// 微信
-function chat(){
-mood+=5;
-show("聊了会天 😊");
-update();
-}
-
-// 吃饭
-function eat(){
-hungry-=20;
-mood+=10;
-show("吃饱了 🍔");
-update();
-}
-
-// 时间影响
-setInterval(()=>{
-let h=new Date().getHours();
-if(h>=22)sleepy+=5;
-if(h>=7&&h<=9)mood-=5;
-update();
-},5000);
+function out(){show("外出了一下 🚶‍♂️");mood+=5;update();}
+function chat(){show("聊了会天 😊");mood+=5;update();}
+function eat(){show("吃饱了 🍔");hungry-=20;update();}
 
 update();
 </script>
-
-</body>
-</html>
