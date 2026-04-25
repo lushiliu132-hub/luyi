@@ -39,10 +39,10 @@ body::before {
 /* 时钟组件容器 */
 #clockWidget {
   position: fixed;
-  top: 15px;
-  right: 15px;
+  top: 12px;
+  right: 12px;
   z-index: 1000;
-  width: 200px;
+  width: 170px;
   height: auto;
 }
 
@@ -64,40 +64,40 @@ body::before {
 
 .date-text {
   position: absolute;
-  top: 17%;
-  right: 12%;
+  top: 16%;
+  left: 52%;
   font-family: "Microsoft YaHei", "SimHei", sans-serif;
-  font-size: 13px;
+  font-size: 11px;
   font-weight: bold;
-  color: #2c1810;
-  text-align: center;
-  min-width: 90px;
+  color: #3a2415;
+  text-align: left;
+  letter-spacing: 0.5px;
 }
 
 .time-text {
   position: absolute;
-  top: 56%;
-  right: 11%;
+  top: 54%;
+  left: 52%;
   font-family: "Arial", "Microsoft YaHei", sans-serif;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
-  color: #2c1810;
+  color: #3a2415;
   letter-spacing: 1px;
 }
 
 @media (max-width: 600px) {
   #clockWidget {
-    width: 160px;
+    width: 140px;
     top: 10px;
     right: 10px;
   }
   
   .date-text {
-    font-size: 10px;
+    font-size: 9px;
   }
   
   .time-text {
-    font-size: 13px;
+    font-size: 11px;
   }
 }
 </style>
