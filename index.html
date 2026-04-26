@@ -269,7 +269,12 @@ body::before {
 .kitty-return-btn:active {
   transform: scale(0.95);
 }
-  /* ===== 小手机面板专用尺寸 ===== */
+/* ===== 小手机面板专用尺寸 & 位置 ===== */
+#panelKitty {
+  align-items: flex-start;   /* 取消垂直居中，改为贴顶 */
+  padding-top: 18vh;           /* 顶部留白，让手机面板往下落一点 */
+}
+
 #panelKitty .panel-content {
   max-width: 30vw;
   max-height: 48vh;
@@ -286,6 +291,7 @@ body::before {
   width: 48px;
   height: 60px;
 }
+
 
 
 </style>
