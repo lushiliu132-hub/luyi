@@ -200,13 +200,23 @@ body::before {
 }
 
 #panelKitty .panel-content {
-  width: min(360px, 90vw);
+  width: 360px;
   aspect-ratio: 9 / 18;
-  max-height: 82vh;
-  position: relative;
+
+  position: fixed;
+  top: 100px;
+  left: 50px;
+
+  transform: scale(0.7);
+  transform-origin: top left;
+
+  will-change: transform;
+  z-index: 999;
+
+  touch-action: none; /* ⭐加这个 */
 }
 
-/* 手机边框 */
+  /* 手机边框 */
 .phone-frame {
   position: absolute;
   top: 0;
