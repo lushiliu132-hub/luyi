@@ -20,7 +20,7 @@ body{
   transition:background-image 0.5s ease;
 }
 
-/* ✨ 新增：底纹层 */
+/* ✨ 新增:底纹层 */
 body::before {
   content: '';
   position: absolute;
@@ -31,7 +31,7 @@ body::before {
   background-image: url('https://i.ibb.co/PzPCwYPM/IMG-4755.png');
   background-repeat: repeat; /* 平铺 */
   background-size: auto; /* 保持原始尺寸 */
-  opacity: 0.15; /* 调整透明度，避免太抢眼 */
+  opacity: 0.15; /* 调整透明度,避免太抢眼 */
   z-index: -1; /* 在主背景下层 */
   pointer-events: none; /* 不阻挡交互 */
 }
@@ -85,6 +85,112 @@ body::before {
   letter-spacing: 1px;
 }
 
+/* ====== 新增:交互按钮样式 ====== */
+.interactive-btn {
+  position: fixed;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 100;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.interactive-btn:hover {
+  opacity: 0.8;
+}
+
+.interactive-btn:active {
+  opacity: 0.6;
+}
+
+/* 主页按钮 - 参考图右上角位置 */
+#btnHome {
+  top: 50px;        /* 调整此值改变垂直位置 */
+  right: 700px;     /* 调整此值改变水平位置 */
+  width: 80px;      /* 调整按钮宽度 */
+  height: 40px;     /* 调整按钮高度 */
+}
+
+/* 外出按钮 - 参考图左上角位置 */
+#btnGoOut {
+  top: 50px;        /* 调整此值改变垂直位置 */
+  left: 90px;       /* 调整此值改变水平位置 */
+  width: 80px;      /* 调整按钮宽度 */
+  height: 40px;     /* 调整按钮高度 */
+}
+
+/* 家庭成员按钮 - 参考图左上角中间位置 */
+#btnFamily {
+  top: 50px;        /* 调整此值改变垂直位置 */
+  left: 250px;      /* 调整此值改变水平位置 */
+  width: 120px;     /* 调整按钮宽度 */
+  height: 40px;     /* 调整按钮高度 */
+}
+
+/* Kitty手机按钮 - 参考图右侧位置 */
+#btnKitty {
+  top: 350px;       /* 调整此值改变垂直位置 */
+  right: 80px;      /* 调整此值改变水平位置 */
+  width: 60px;      /* 调整按钮宽度 */
+  height: 80px;     /* 调整按钮高度 */
+}
+
+/* 界面板块遮罩层 */
+#panelOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 2000;
+  justify-content: center;
+  align-items: center;
+}
+
+#panelOverlay.show {
+  display: flex;
+}
+
+/* 界面板块内容 */
+#panelContent {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+}
+
+#panelContent img {
+  max-width: 100%;
+  max-height: 90vh;
+  display: block;
+  border-radius: 10px;
+}
+
+/* 关闭按钮 */
+#closePanel {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  z-index: 2001;
+}
+
+#closePanel:hover {
+  background: #f0f0f0;
+}
+
 @media (max-width: 600px) {
   #clockWidget {
     width: 140px;
@@ -99,6 +205,35 @@ body::before {
   .time-text {
     font-size: 11px;
   }
+
+  /* 移动端按钮位置调整 */
+  #btnHome {
+    top: 60px;
+    right: 20px;
+    width: 60px;
+    height: 30px;
+  }
+
+  #btnGoOut {
+    top: 60px;
+    left: 20px;
+    width: 60px;
+    height: 30px;
+  }
+
+  #btnFamily {
+    top: 60px;
+    left: 100px;
+    width: 90px;
+    height: 30px;
+  }
+
+  #btnKitty {
+    top: 300px;
+    right: 20px;
+    width: 50px;
+    height: 70px;
+  }
 }
 </style>
 
@@ -106,12 +241,25 @@ body::before {
 <body>
 
 <!-- 时钟组件 -->
-
 <div id="clockWidget">
   <img src="" alt="时钟" id="clockIcon">
   <div class="clock-overlay">
     <div class="date-text" id="dateText">星期一 02日</div>
     <div class="time-text" id="timeText">上午 08:33</div>
+  </div>
+</div>
+
+<!-- ====== 新增:交互按钮 ====== -->
+<button class="interactive-btn" id="btnHome" title="主页"></button>
+<button class="interactive-btn" id="btnGoOut" title="外出"></button>
+<button class="interactive-btn" id="btnFamily" title="家庭成员"></button>
+<button class="interactive-btn" id="btnKitty" title="Kitty手机"></button>
+
+<!-- ====== 新增:界面板块遮罩 ====== -->
+<div id="panelOverlay">
+  <div id="panelContent">
+    <button id="closePanel">×</button>
+    <img id="panelImage" src="" alt="界面板块">
   </div>
 </div>
 
@@ -163,11 +311,11 @@ function updateClock() {
   const clockIcon = document.getElementById('clockIcon');
   clockIcon.src = CLOCK_ICONS[sceneType];
   
-  // 更新日期文字（星期X XX日）
+  // 更新日期文字(星期X XX日)
   const dateText = document.getElementById('dateText');
   dateText.textContent = `${getWeekDayText(day)} ${padZero(date)}日`;
   
-  // 更新时间文字（上午/下午 HH:MM）
+  // 更新时间文字(上午/下午 HH:MM)
   const timeText = document.getElementById('timeText');
   const period = hour < 12 ? '上午' : '下午';
   const displayHour = hour % 12 || 12; // 12小时制
@@ -234,10 +382,11 @@ setBackground()
 // ===== 每10分钟刷新 =====
 update()
 setInterval(update, 30 * 60 * 1000)
-  setInterval(() => {
+setInterval(() => {
   setBackground()
 }, 10 * 60 * 1000)
-  // ===== 状态数值 =====
+
+// ===== 状态数值 =====
 let mood = 70      // 心情
 let energy = 60    // 精力
 let hunger = 50    // 饥饿
@@ -272,6 +421,7 @@ function updateStatusByTime() {
 
 // 初始化一次
 updateStatusByTime()
+
 document.body.addEventListener("click", () => {
 
   const action = Math.floor(Math.random() * 3)
@@ -293,6 +443,7 @@ document.body.addEventListener("click", () => {
   updateStatusByTime()
   showStatus()
 })
+
 function showStatus() {
   let box = document.getElementById("statusBox")
 
@@ -311,15 +462,16 @@ function showStatus() {
   }
 
   box.innerHTML = `
-  心情：${mood}<br>
-  精力：${energy}<br>
-  饥饿：${hunger}<br>
-  困意：${sleepiness}
+  心情:${mood}<br>
+  精力:${energy}<br>
+  饥饿:${hunger}<br>
+  困意:${sleepiness}
   `
 }
 
 // 初始显示
 showStatus()
+
 function showMoodIcon() {
   const icon = document.createElement("div")
   icon.style.position = "fixed"
@@ -345,16 +497,19 @@ function showMoodIcon() {
     icon.remove()
   }, 1500)
 }
-  // 创建心情图标
+
+// 创建心情图标
 let moodIcon = document.createElement('img');
 moodIcon.style.position = 'absolute';
 moodIcon.style.zIndex = '9999'; // 保证在前面
 document.body.appendChild(moodIcon);
 
-// 更新心情图标位置（设置在人物头部）
+// 更新心情图标位置(设置在人物头部)
 function updateMoodIcon() {
   // 获取人物的位置
   const character = document.querySelector('.character'); // 假设人物的class是.character
+  if (!character) return;
+  
   const characterRect = character.getBoundingClientRect();
   
   // 更新心情图标位置
@@ -365,11 +520,11 @@ function updateMoodIcon() {
 // 根据心情值设置图标
 function updateMoodIconBasedOnStatus() {
   if (mood > 70) {
-    moodIcon.src = "https://example.com/heart-icon.png";  // 高心情，显示心形图标
+    moodIcon.src = "https://example.com/heart-icon.png";  // 高心情,显示心形图标
   } else if (mood > 40) {
-    moodIcon.src = "https://example.com/smile-icon.png"; // 中等心情，显示笑脸图标
+    moodIcon.src = "https://example.com/smile-icon.png"; // 中等心情,显示笑脸图标
   } else {
-    moodIcon.src = "https://example.com/sad-icon.png"; // 低心情，显示哭脸图标
+    moodIcon.src = "https://example.com/sad-icon.png"; // 低心情,显示哭脸图标
   }
 }
 
@@ -379,8 +534,70 @@ function update() {
   updateMoodIcon();
 }
 
-// 调用：每30分钟（30 * 60 * 1000毫秒）更新一次
+// 调用:每30分钟(30 * 60 * 1000毫秒)更新一次
 setInterval(update, 30 * 60 * 1000); // 每半小时更新一次
+
+// ====== 新增:界面板块交互功能 ======
+
+// 界面板块图片映射
+const PANEL_IMAGES = {
+  home: 'https://i.ibb.co/V0JkwTmM/IMG-4779.jpg',      // 主页
+  goout: 'https://i.ibb.co/ksckdZsy/IMG-4777.jpg',     // 外出
+  family: 'https://i.ibb.co/FbNs95S9/IMG-4778.jpg',    // 家庭成员
+  kitty: 'https://i.ibb.co/XxwWKQDr/IMG-4806.png'      // Kitty手机
+};
+
+// 显示界面板块
+function showPanel(panelType) {
+  const overlay = document.getElementById('panelOverlay');
+  const panelImage = document.getElementById('panelImage');
+  
+  panelImage.src = PANEL_IMAGES[panelType];
+  overlay.classList.add('show');
+}
+
+// 关闭界面板块
+function closePanel() {
+  const overlay = document.getElementById('panelOverlay');
+  overlay.classList.remove('show');
+}
+
+// 绑定按钮点击事件
+document.getElementById('btnHome').addEventListener('click', (e) => {
+  e.stopPropagation(); // 阻止事件冒泡
+  showPanel('home');
+});
+
+document.getElementById('btnGoOut').addEventListener('click', (e) => {
+  e.stopPropagation();
+  showPanel('goout');
+});
+
+document.getElementById('btnFamily').addEventListener('click', (e) => {
+  e.stopPropagation();
+  showPanel('family');
+});
+
+document.getElementById('btnKitty').addEventListener('click', (e) => {
+  e.stopPropagation();
+  showPanel('kitty');
+});
+
+// 关闭按钮事件
+document.getElementById('closePanel').addEventListener('click', closePanel);
+
+// 点击遮罩层关闭
+document.getElementById('panelOverlay').addEventListener('click', (e) => {
+  if (e.target.id === 'panelOverlay') {
+    closePanel();
+  }
+});
+
+// 预加载界面板块图片
+Object.values(PANEL_IMAGES).forEach(url => {
+  const img = new Image();
+  img.src = url;
+});
 
 </script>
 
