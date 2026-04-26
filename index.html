@@ -271,13 +271,15 @@ body::before {
 }
 /* ===== 小手机面板专用尺寸 & 位置 ===== */
 #panelKitty {
-  align-items: flex-start;   /* 取消垂直居中，改为贴顶 */
-  padding-top: 18vh;           /* 顶部留白，让手机面板往下落一点 */
+  align-items: flex-start;
+  padding-top: 10vh;           /* 上移：从18vh减到10vh */
+  justify-content: center;     /* 水平基准居中 */
 }
 
 #panelKitty .panel-content {
   max-width: 30vw;
   max-height: 48vh;
+  margin-left: -25px;          /* 左移：整体往左偏25px */
 }
 
 #panelKitty .panel-bg {
@@ -291,8 +293,6 @@ body::before {
   width: 48px;
   height: 60px;
 }
-
-
 
 </style>
 
