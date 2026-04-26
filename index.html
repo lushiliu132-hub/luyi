@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>璐小家</title>
 
 <style>
@@ -11,12 +10,10 @@ body{
   margin:0;
   height:100vh;
   position: relative;
-
   background-size: 100% auto;
   background-repeat: no-repeat;
   background-position: center top;
   background-color: #000;
-
   transition:background-image 0.5s ease;
 }
 
@@ -287,11 +284,13 @@ body::before {
 #panelKitty {
   align-items: center;
   justify-content: center;
+  padding: 2vh 0;
 }
 
 #panelKitty .panel-content {
-  max-width: 350px;
-  max-height: 700px;
+  width: min(320px, 85vw);
+  aspect-ratio: 9 / 18;
+  max-height: 78vh;
   position: relative;
 }
 
@@ -302,6 +301,7 @@ body::before {
   left: 0;
   width: 100%;
   height: 100%;
+  object-fit: contain;
   pointer-events: none;
   z-index: 100;
 }
@@ -309,28 +309,28 @@ body::before {
 /* 手机屏幕内容区 */
 .phone-screen {
   position: absolute;
-  top: 8%;
-  left: 6.5%;
-  width: 87%;
-  height: 84%;
+  top: 6%;
+  left: 7%;
+  width: 86%;
+  height: 88%;
   overflow: hidden;
   background: #fff;
-  border-radius: 12px;
+  border-radius: 10px;
 }
 
 /* 小手机关闭按钮 */
 .phone-close-btn {
   position: absolute;
-  top: 1%;
-  right: 2%;
-  width: 30px;
-  height: 30px;
+  top: 1.5%;
+  right: 3%;
+  width: 28px;
+  height: 28px;
   background: rgba(255, 255, 255, 0.9);
   border: none;
   border-radius: 50%;
   cursor: pointer;
   z-index: 200;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1;
   color: #ff6b6b;
   transition: all 0.2s;
@@ -360,17 +360,17 @@ body::before {
 /* 店铺列表热区 */
 .shop-list {
   position: absolute;
-  top: 25%;
+  top: 22%;
   left: 8%;
   width: 84%;
-  height: 60%;
+  height: 65%;
   overflow-y: auto;
 }
 
 .shop-item {
   position: relative;
-  height: 16.6%;
-  margin-bottom: 2%;
+  height: 14%;
+  margin-bottom: 1.5%;
   cursor: pointer;
   background: transparent;
   border: none;
@@ -390,13 +390,13 @@ body::before {
 /* 商品列表热区 */
 .product-grid {
   position: absolute;
-  top: 22%;
+  top: 20%;
   left: 8%;
   width: 84%;
-  height: 58%;
+  height: 60%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 3%;
+  gap: 2%;
   overflow-y: auto;
 }
 
@@ -440,7 +440,7 @@ body::before {
   background: transparent;
   border: none;
   cursor: pointer;
-  padding: 5px 15px;
+  padding: 5px 12px;
   transition: transform 0.2s;
   flex: 1;
   height: 100%;
@@ -457,14 +457,14 @@ body::before {
 /* 返回按钮 */
 .back-btn {
   position: absolute;
-  top: 3%;
+  top: 2.5%;
   left: 5%;
-  width: 35px;
-  height: 35px;
+  width: 32px;
+  height: 32px;
   background: transparent;
   border: none;
   cursor: pointer;
-  font-size: 24px;
+  font-size: 20px;
   color: #ff9800;
   z-index: 50;
   transition: transform 0.2s;
@@ -481,27 +481,27 @@ body::before {
 /* 购物车提示 */
 .cart-badge {
   position: absolute;
-  top: 70%;
+  top: 68%;
   right: 15%;
   background: #ff6b6b;
   color: white;
   border-radius: 50%;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: bold;
 }
 
 /* 结算页面特殊样式 */
 .checkout-content {
   position: absolute;
-  top: 15%;
+  top: 14%;
   left: 10%;
   width: 80%;
-  height: 70%;
+  height: 68%;
   overflow-y: auto;
 }
 
@@ -523,9 +523,9 @@ body::before {
   transform: translate(-50%, -50%);
   background: rgba(0, 0, 0, 0.85);
   color: white;
-  padding: 15px 25px;
-  border-radius: 10px;
-  font-size: 14px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 13px;
   z-index: 300;
   display: none;
   white-space: nowrap;
@@ -547,7 +547,6 @@ body::before {
 <body>
 
 <!-- 时钟组件 -->
-
 <div id="clockWidget">
   <img src="" alt="时钟" id="clockIcon">
   <div class="clock-overlay">
@@ -557,7 +556,6 @@ body::before {
 </div>
 
 <!-- 交互按钮 -->
-
 <button class="interactive-btn" id="btnGoOut" title="外出">
   <img src="https://i.ibb.co/ksckdZsy/IMG-4777.jpg" alt="外出">
 </button>
@@ -575,29 +573,26 @@ body::before {
 </button>
 
 <!-- ===== 互动面板层 ===== -->
-
 <div id="panelHome" class="interactive-panel">
   <div class="panel-content">
     <img src="https://i.ibb.co/4wm5rnzr/IMG-4830.jpg" class="panel-bg" alt="主页面板">
     <button class="panel-close" data-panel="panelHome" title="返回"></button>
 
-```
-<div class="home-stats-overlay">
-  <div class="home-left-col">
-    <div>姓名：璐</div>
-    <div>年龄：19</div>
-    <div>身高：165</div>
-    <div>体重：52kg</div>
-    <div>生日：12月12日</div>
-  </div>
-  <div class="home-right-col">
-    <div>心情：<span id="statMood">70</span>/100</div>
-    <div>疲惫值：<span id="statEnergy">60</span>/100</div>
-    <div>困意：<span id="statSleepiness">30</span>/100</div>
-    <div>饥饿值：<span id="statHunger">50</span>/100</div>
-  </div>
-</div>
-```
+    <div class="home-stats-overlay">
+      <div class="home-left-col">
+        <div>姓名：璐</div>
+        <div>年龄：19</div>
+        <div>身高：165</div>
+        <div>体重：52kg</div>
+        <div>生日：12月12日</div>
+      </div>
+      <div class="home-right-col">
+        <div>心情：<span id="statMood">70</span>/100</div>
+        <div>疲惫值：<span id="statEnergy">60</span>/100</div>
+        <div>困意：<span id="statSleepiness">30</span>/100</div>
+        <div>饥饿值：<span id="statHunger">50</span>/100</div>
+      </div>
+    </div>
 
   </div>
 </div>
@@ -617,60 +612,57 @@ body::before {
 </div>
 
 <!-- ===== 小手机面板（新增交互功能） ===== -->
-
 <div id="panelKitty" class="interactive-panel">
   <div class="panel-content">
     <!-- 手机边框 -->
     <img src="https://i.ibb.co/ZRHKWhkm/IMG-4848.png" class="phone-frame" alt="手机边框">
 
-```
-<!-- 关闭按钮 -->
-<button class="phone-close-btn" id="phoneCloseBtn">×</button>
+    <!-- 关闭按钮 -->
+    <button class="phone-close-btn" id="phoneCloseBtn">×</button>
 
-<!-- 手机屏幕内容 -->
-<div class="phone-screen">
-  
-  <!-- 页面1: 外卖店铺列表 -->
-  <div class="phone-page active" id="pageShopList" style="background-image: url('https://i.ibb.co/PZHNr8vn/IMG-4837.jpg');">
-    <div class="shop-list" id="shopList">
-      <!-- 店铺项由JS动态生成 -->
+    <!-- 手机屏幕内容 -->
+    <div class="phone-screen">
+      
+      <!-- 页面1: 外卖店铺列表 -->
+      <div class="phone-page active" id="pageShopList" style="background-image: url('https://i.ibb.co/PZHNr8vn/IMG-4837.jpg');">
+        <div class="shop-list" id="shopList">
+          <!-- 店铺项由JS动态生成 -->
+        </div>
+      </div>
+      
+      <!-- 页面2: 商品列表 -->
+      <div class="phone-page" id="pageProductList" style="background-image: url('https://i.ibb.co/HD58BfBL/IMG-4838.jpg');">
+        <button class="back-btn" id="backToShopList">←</button>
+        <div class="product-grid" id="productGrid">
+          <!-- 商品项由JS动态生成 -->
+        </div>
+        <div class="phone-nav">
+          <button class="nav-btn" id="navHome">🏠</button>
+          <button class="nav-btn" id="navCheckout">🛒</button>
+        </div>
+        <div class="cart-badge" id="cartBadge" style="display: none;">0</div>
+      </div>
+      
+      <!-- 页面3: 结算页面 -->
+      <div class="phone-page" id="pageCheckout" style="background-image: url('https://i.ibb.co/chgw0ym5/IMG-4842.png');">
+        <button class="back-btn" id="backToProducts">←</button>
+        <div class="checkout-content" id="checkoutContent">
+          <!-- 结算内容由JS动态生成 -->
+        </div>
+        <div class="phone-nav">
+          <button class="nav-btn" id="confirmOrder" style="background: #ff9800; color: white; border-radius: 8px; font-weight: bold;">确认支付</button>
+        </div>
+      </div>
+      
+      <!-- 页面4: 支付成功 -->
+      <div class="phone-page success-animation" id="pageSuccess" style="background-image: url('https://i.ibb.co/MkVd9y1V/IMG-4840.png');">
+        <button class="back-btn" id="backToHome" style="top: 90%; left: 50%; transform: translateX(-50%); background: #ff9800; color: white; width: 80%; border-radius: 8px; padding: 10px; font-weight: bold;">返回首页</button>
+      </div>
+      
     </div>
-  </div>
-  
-  <!-- 页面2: 商品列表 -->
-  <div class="phone-page" id="pageProductList" style="background-image: url('https://i.ibb.co/HD58BfBL/IMG-4838.jpg');">
-    <button class="back-btn" id="backToShopList">←</button>
-    <div class="product-grid" id="productGrid">
-      <!-- 商品项由JS动态生成 -->
-    </div>
-    <div class="phone-nav">
-      <button class="nav-btn" id="navHome">🏠</button>
-      <button class="nav-btn" id="navCheckout">🛒</button>
-    </div>
-    <div class="cart-badge" id="cartBadge" style="display: none;">0</div>
-  </div>
-  
-  <!-- 页面3: 结算页面 -->
-  <div class="phone-page" id="pageCheckout" style="background-image: url('https://i.ibb.co/chgw0ym5/IMG-4842.png');">
-    <button class="back-btn" id="backToProducts">←</button>
-    <div class="checkout-content" id="checkoutContent">
-      <!-- 结算内容由JS动态生成 -->
-    </div>
-    <div class="phone-nav">
-      <button class="nav-btn" id="confirmOrder" style="background: #ff9800; color: white; border-radius: 8px; font-weight: bold;">确认支付</button>
-    </div>
-  </div>
-  
-  <!-- 页面4: 支付成功 -->
-  <div class="phone-page success-animation" id="pageSuccess" style="background-image: url('https://i.ibb.co/MkVd9y1V/IMG-4840.png');">
-    <button class="back-btn" id="backToHome" style="top: 90%; left: 50%; transform: translateX(-50%); background: #ff9800; color: white; width: 80%; border-radius: 8px; padding: 10px; font-weight: bold;">返回首页</button>
-  </div>
-  
-</div>
 
-<!-- 小窗口提示 -->
-<div class="mini-popup" id="miniPopup">已加入购物车</div>
-```
+    <!-- 小窗口提示 -->
+    <div class="mini-popup" id="miniPopup">已加入购物车</div>
 
   </div>
 </div>
@@ -949,7 +941,6 @@ const PRODUCTS = {
     { id: 'm8', name: '奶茶H', price: 25, image: 'https://i.ibb.co/9kqHmwng/IMG-4852.png' },
     { id: 'm9', name: '奶茶I', price: 15, image: 'https://i.ibb.co/9kqHmwng/IMG-4852.png' }
   ],
-  // 其他店铺类似...
 };
 
 // 购物车
