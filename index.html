@@ -242,33 +242,6 @@ body::before {
   transform: scale(0.92);
 }
 
-/* 小手机面板内的返回按钮 */
-.kitty-return-btn {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
-  width: 75px;
-  height: 95px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  z-index: 2001;
-  padding: 0;
-  transition: transform 0.2s;
-}
-.kitty-return-btn img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: contain;
-}
-.kitty-return-btn:hover {
-  transform: scale(1.05);
-  opacity: 0.9;
-}
-.kitty-return-btn:active {
-  transform: scale(0.95);
-}
 /* ===== 小手机面板专用尺寸 & 位置 ===== */
 #panelKitty {
   align-items: flex-start;
@@ -277,21 +250,35 @@ body::before {
 }
 
 #panelKitty .panel-content {
-  max-width: 36vw;
-  max-height: 55vh;
-  margin-left: -45px;
+  max-width: 40vw;
+  max-height: 60vh;
+  margin-left: -55px;
 }
 
 #panelKitty .panel-bg {
-  max-width: 36vw;
-  max-height: 55vh;
+  max-width: 40vw;
+  max-height: 60vh;
 }
 
-#panelKitty .kitty-return-btn {
-  bottom: 14px;
-  right: 14px;
-  width: 52px;
-  height: 68px;
+/* 面板内小手机图标热区（透明，正好盖在背景图底部的小手机图标上） */
+.kitty-home-btn {
+  position: absolute;
+  bottom: 6%;
+  right: 8%;
+  width: 14%;
+  height: 10%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  z-index: 2001;
+  padding: 0;
+  transition: transform 0.2s;
+}
+.kitty-home-btn:hover {
+  transform: scale(1.08);
+}
+.kitty-home-btn:active {
+  transform: scale(0.92);
 }
 
 </style>
@@ -351,9 +338,8 @@ body::before {
   <div class="panel-content">
     <img src="https://i.ibb.co/1tqK3Znb/IMG-4819.png" class="panel-bg" alt="小手机面板" id="kittyPanelBg">
     <button class="panel-close" data-panel="panelKitty" title="返回"></button>
-    <button id="kittyReturnBtn" class="kitty-return-btn" title="返回主页">
-      <img src="https://i.ibb.co/XxwWKQDr/IMG-4806.png" alt="小手机返回">
-    </button>
+    <!-- 透明热区：盖在面板背景图底部的小手机图标上，点击返回主UI -->
+    <button id="kittyHomeBtn" class="kitty-home-btn" title="返回主页"></button>
   </div>
 </div>
 
@@ -628,9 +614,10 @@ document.querySelectorAll('.panel-close').forEach(btn => {
   });
 });
 
-const kittyReturnBtn = document.getElementById('kittyReturnBtn');
-if (kittyReturnBtn) {
-  kittyReturnBtn.addEventListener('click', (e) => {
+// 点击面板内小手机图标热区返回主UI
+const kittyHomeBtn = document.getElementById('kittyHomeBtn');
+if (kittyHomeBtn) {
+  kittyHomeBtn.addEventListener('click', (e) => {
     e.stopPropagation();
     closeAllPanels();
   });
