@@ -292,6 +292,30 @@ body::before {
   <img src="https://i.ibb.co/XxwWKQDr/IMG-4806.png" alt="Kitty手机">
 </button>
 
+<!-- ===== 互动面板层（必须放在script之前，否则JS找不到DOM） ===== -->
+<div id="panelHome" class="interactive-panel">
+  <img src="https://i.ibb.co/84nnyXXy/IMG-4817.png" class="panel-bg" alt="主页面板">
+  <button class="panel-close" data-panel="panelHome" title="返回"></button>
+</div>
+
+<div id="panelFamily" class="interactive-panel">
+  <img src="https://i.ibb.co/BKr43mRd/IMG-4818.png" class="panel-bg" alt="家庭成员面板">
+  <button class="panel-close" data-panel="panelFamily" title="返回"></button>
+</div>
+
+<div id="panelGoOut" class="interactive-panel">
+  <img src="https://i.ibb.co/1tqK3Znb/IMG-4819.png" class="panel-bg" alt="外出面板">
+  <button class="panel-close" data-panel="panelGoOut" title="返回"></button>
+</div>
+
+<div id="panelKitty" class="interactive-panel">
+  <img src="https://i.ibb.co/1tqK3Znb/IMG-4819.png" class="panel-bg" alt="小手机面板" id="kittyPanelBg">
+  <button class="panel-close" data-panel="panelKitty" title="返回"></button>
+  <button id="kittyReturnBtn" class="kitty-return-btn" title="返回主页">
+    <img src="https://i.ibb.co/XxwWKQDr/IMG-4806.png" alt="小手机返回">
+  </button>
+</div>
+
 <script>
 // ===== 时钟图标 =====
 const CLOCK_ICONS = {
@@ -641,32 +665,6 @@ buttonImages.forEach(url => {
 });
 
 </script>
-
-<!-- ===== 互动面板层 ===== -->
-<div id="panelHome" class="interactive-panel">
-  <img src="https://i.ibb.co/84nnyXXy/IMG-4817.png" class="panel-bg" alt="主页面板">
-  <!-- 透明热区：盖在背景图右上角的红色叉上，点击返回 -->
-  <button class="panel-close" data-panel="panelHome" title="返回"></button>
-</div>
-
-<div id="panelFamily" class="interactive-panel">
-  <img src="https://i.ibb.co/BKr43mRd/IMG-4818.png" class="panel-bg" alt="家庭成员面板">
-  <button class="panel-close" data-panel="panelFamily" title="返回"></button>
-</div>
-
-<div id="panelGoOut" class="interactive-panel">
-  <img src="https://i.ibb.co/1tqK3Znb/IMG-4819.png" class="panel-bg" alt="外出面板">
-  <button class="panel-close" data-panel="panelGoOut" title="返回"></button>
-</div>
-
-<div id="panelKitty" class="interactive-panel">
-  <img src="https://i.ibb.co/1tqK3Znb/IMG-4819.png" class="panel-bg" alt="小手机面板" id="kittyPanelBg">
-  <button class="panel-close" data-panel="panelKitty" title="返回"></button>
-  <!-- 小手机面板内：再次点击小手机图标返回主面板 -->
-  <button id="kittyReturnBtn" class="kitty-return-btn" title="返回主页">
-    <img src="https://i.ibb.co/XxwWKQDr/IMG-4806.png" alt="小手机返回">
-  </button>
-</div>
 
 </body>
 </html>
