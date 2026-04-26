@@ -245,19 +245,40 @@ body::before {
 /* ===== 小手机面板专用尺寸 & 位置 ===== */
 #panelKitty {
   align-items: flex-start;
-  padding-top: 10vh;
+  padding-top: 6vh;           /* 上移：从10vh减到6vh */
   justify-content: center;
 }
 
 #panelKitty .panel-content {
   max-width: 40vw;
   max-height: 60vh;
-  margin-left: -55px;
+  margin-left: -75px;         /* 左移：从-55px减到-75px */
 }
 
 #panelKitty .panel-bg {
   max-width: 40vw;
   max-height: 60vh;
+}
+
+/* 面板内小手机图标热区 */
+.kitty-home-btn {
+  position: absolute;
+  bottom: 6%;
+  right: 8%;
+  width: 14%;
+  height: 10%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  z-index: 2001;
+  padding: 0;
+  transition: transform 0.2s;
+}
+.kitty-home-btn:hover {
+  transform: scale(1.08);
+}
+.kitty-home-btn:active {
+  transform: scale(0.92);
 }
 
 /* 面板内小手机图标热区（透明，正好盖在背景图底部的小手机图标上） */
