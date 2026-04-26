@@ -10,7 +10,7 @@
 body{
   margin:0;
   height:100vh;
-  position: relative; /* 让伪元素定位 */
+  position: relative;
 
   background-size: 100% auto;
   background-repeat: no-repeat;
@@ -20,7 +20,7 @@ body{
   transition:background-image 0.5s ease;
 }
 
-/* ✨ 新增:底纹层 */
+/* ✨ 底纹层 */
 body::before {
   content: '';
   position: absolute;
@@ -29,11 +29,11 @@ body::before {
   width: 100%;
   height: 100%;
   background-image: url('https://i.ibb.co/PzPCwYPM/IMG-4755.png');
-  background-repeat: repeat; /* 平铺 */
-  background-size: auto; /* 保持原始尺寸 */
-  opacity: 0.15; /* 调整透明度,避免太抢眼 */
-  z-index: -1; /* 在主背景下层 */
-  pointer-events: none; /* 不阻挡交互 */
+  background-repeat: repeat;
+  background-size: auto;
+  opacity: 0.15;
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* 时钟组件容器 */
@@ -85,7 +85,7 @@ body::before {
   letter-spacing: 1px;
 }
 
-/* ====== 新增:交互按钮样式 ====== */
+/* 交互按钮 */
 .interactive-btn {
   position: fixed;
   border: none;
@@ -112,7 +112,7 @@ body::before {
   opacity: 0.8;
 }
 
-/* 外出按钮 - 左上角第一个 */
+/* 外出按钮 */
 #btnGoOut {
   top: 12px;
   left: 55px;
@@ -120,7 +120,7 @@ body::before {
   height: 34px;
 }
 
-/* 家庭成员按钮 - 左上角第二个 */
+/* 家庭成员按钮 */
 #btnFamily {
   top: 12px;
   left: 128px;
@@ -128,7 +128,7 @@ body::before {
   height: 34px;
 }
 
-/* 主页按钮 - 右上角 */
+/* 主页按钮 */
 #btnHome {
   top: 12px;
   right: 210px;
@@ -136,7 +136,7 @@ body::before {
   height: 34px;
 }
 
-/* Kitty手机按钮 - 右侧中间位置 */
+/* Kitty手机按钮 */
 #btnKitty {
   top: 140px;
   right: 50px;
@@ -159,7 +159,6 @@ body::before {
     font-size: 11px;
   }
   
- /* 移动端按钮位置同步调整 */
   #btnGoOut {
     top: 14px;
     left: 10px;
@@ -198,6 +197,7 @@ body::before {
   height: 100%;
   z-index: 2000;
   display: none;
+  background: #000; /* 备用底色，图没加载完也不透明 */
 }
 .interactive-panel.active {
   display: block;
@@ -212,22 +212,24 @@ body::before {
   object-position: center top;
 }
 
-/* 透明关闭热区（盖在背景图右上角的红色叉上） */
+/* 关闭热区（淡红半透明，确保看得见点得着） */
 .panel-close {
   position: absolute;
   top: 16px;
   right: 16px;
   width: 48px;
   height: 48px;
-  border: none;
-  background: transparent;
+  border: 2px solid rgba(255, 80, 80, 0.6);
+  background: rgba(255, 0, 0, 0.15);
+  border-radius: 10px;
   cursor: pointer;
   z-index: 2001;
   padding: 0;
-  transition: transform 0.2s;
+  transition: transform 0.2s, background 0.2s;
 }
 .panel-close:hover {
   transform: scale(1.08);
+  background: rgba(255, 0, 0, 0.3);
 }
 .panel-close:active {
   transform: scale(0.92);
@@ -240,8 +242,9 @@ body::before {
   right: 30px;
   width: 75px;
   height: 95px;
-  border: none;
-  background: transparent;
+  border: 2px solid rgba(255, 105, 180, 0.35);
+  background: rgba(255, 105, 180, 0.08);
+  border-radius: 12px;
   cursor: pointer;
   z-index: 2001;
   padding: 0;
@@ -275,7 +278,7 @@ body::before {
   </div>
 </div>
 
-<!-- ====== 新增:交互按钮（带图片）====== -->
+<!-- 交互按钮 -->
 <button class="interactive-btn" id="btnGoOut" title="外出">
   <img src="https://i.ibb.co/ksckdZsy/IMG-4777.jpg" alt="外出">
 </button>
@@ -292,7 +295,7 @@ body::before {
   <img src="https://i.ibb.co/XxwWKQDr/IMG-4806.png" alt="Kitty手机">
 </button>
 
-<!-- ===== 互动面板层（必须放在script之前，否则JS找不到DOM） ===== -->
+<!-- ===== 互动面板层（必须放在script之前） ===== -->
 <div id="panelHome" class="interactive-panel">
   <img src="https://i.ibb.co/84nnyXXy/IMG-4817.png" class="panel-bg" alt="主页面板">
   <button class="panel-close" data-panel="panelHome" title="返回"></button>
@@ -319,9 +322,9 @@ body::before {
 <script>
 // ===== 时钟图标 =====
 const CLOCK_ICONS = {
-  night: 'https://i.ibb.co/sJCmM13V/IMG-4775.png',   // 晚上 19:00-6:59
-  day: 'https://i.ibb.co/bjfKnynR/IMG-4774.png',     // 白天 7:00-14:59
-  evening: 'https://i.ibb.co/xtdH3Mpt/IMG-4773.png'  // 傍晚 15:00-18:59
+  night: 'https://i.ibb.co/sJCmM13V/IMG-4775.png',
+  day: 'https://i.ibb.co/bjfKnynR/IMG-4774.png',
+  evening: 'https://i.ibb.co/xtdH3Mpt/IMG-4773.png'
 };
 
 // 获取北京时间
@@ -332,18 +335,15 @@ function getBeijingTime() {
   return beijingTime;
 }
 
-// 格式化数字为两位数
 function padZero(num) {
   return num.toString().padStart(2, '0');
 }
 
-// 获取星期几
 function getWeekDayText(day) {
   const weekDays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
   return weekDays[day];
 }
 
-// 更新时钟显示
 function updateClock() {
   const beijingTime = getBeijingTime();
   const hour = beijingTime.getHours();
@@ -351,7 +351,6 @@ function updateClock() {
   const date = beijingTime.getDate();
   const day = beijingTime.getDay();
   
-  // 更新图标
   let sceneType;
   if (hour >= 7 && hour < 15) {
     sceneType = 'day';
@@ -364,31 +363,25 @@ function updateClock() {
   const clockIcon = document.getElementById('clockIcon');
   clockIcon.src = CLOCK_ICONS[sceneType];
   
-  // 更新日期文字(星期X XX日)
   const dateText = document.getElementById('dateText');
   dateText.textContent = `${getWeekDayText(day)} ${padZero(date)}日`;
   
-  // 更新时间文字(上午/下午 HH:MM)
   const timeText = document.getElementById('timeText');
   const period = hour < 12 ? '上午' : '下午';
-  const displayHour = hour % 12 || 12; // 12小时制
+  const displayHour = hour % 12 || 12;
   timeText.textContent = `${period} ${padZero(displayHour)}:${padZero(minute)}`;
 }
 
-// 初始化和定时更新
 updateClock();
-setInterval(updateClock, 1000); // 每秒更新
+setInterval(updateClock, 1000);
 
-// 预加载图标
 Object.values(CLOCK_ICONS).forEach(url => {
   const img = new Image();
   img.src = url;
 });
 
-// ===== 时间判断 =====
 function getTimeType() {
   const hour = new Date().getHours()
-
   if (hour >= 7 && hour < 15) {
     return "day"
   } else if (hour >= 15 && hour < 19) {
@@ -398,7 +391,6 @@ function getTimeType() {
   }
 }
 
-// ===== UI图片 =====
 const UI_MAP = {
   day: [
     "https://i.ibb.co/2GyGQtz/IMG-4785.jpg",
@@ -415,7 +407,6 @@ const UI_MAP = {
   ]
 }
 
-// ===== 随机选图 =====
 function getRandomUI() {
   const type = getTimeType()
   const list = UI_MAP[type]
@@ -423,83 +414,56 @@ function getRandomUI() {
   return list[index]
 }
 
-// ===== 设置背景 =====
 function setBackground() {
   const bg = getRandomUI()
   document.body.style.backgroundImage = `url(${bg})`
 }
 
-// ===== 初始加载 =====
 setBackground()
 
-// ===== 每10分钟刷新 =====
-update()
-setInterval(update, 30 * 60 * 1000)
-setInterval(() => {
-  setBackground()
-}, 10 * 60 * 1000)
-
-// ===== 状态数值 =====
-let mood = 70      // 心情
-let energy = 60    // 精力
-let hunger = 50    // 饥饿
-let sleepiness = 30 // 困意
-
-// ===== 时间影响 =====
 function updateStatusByTime() {
   const hour = new Date().getHours()
-
-  // 早上心情低
   if (hour >= 7 && hour <= 9) {
     mood -= 10
     sleepiness += 20
   }
-
-  // 晚上困意增加
   if (hour >= 22) {
     sleepiness += 15
   }
-
-  // 饥饿时间段
   if ((hour >= 11 && hour <= 13) || (hour >= 18 && hour <= 19)) {
     hunger += 20
   }
-
-  // 限制范围
   mood = Math.max(-30, Math.min(100, mood))
   energy = Math.max(0, Math.min(100, energy))
   hunger = Math.max(0, Math.min(100, hunger))
   sleepiness = Math.max(0, Math.min(100, sleepiness))
 }
 
-// 初始化一次
+let mood = 70
+let energy = 60
+let hunger = 50
+let sleepiness = 30
+
 updateStatusByTime()
 
 document.body.addEventListener("click", () => {
-
   const action = Math.floor(Math.random() * 3)
-
   if (action === 0) {
-    // 吃饭
     hunger -= 20
     mood += 5
   } else if (action === 1) {
-    // 睡觉
     sleepiness -= 30
     energy += 20
   } else {
-    // 摸鱼
     mood += 10
     energy -= 5
   }
-
   updateStatusByTime()
   showStatus()
 })
 
 function showStatus() {
   let box = document.getElementById("statusBox")
-
   if (!box) {
     box = document.createElement("div")
     box.id = "statusBox"
@@ -513,7 +477,6 @@ function showStatus() {
     box.style.fontSize = "14px"
     document.body.appendChild(box)
   }
-
   box.innerHTML = `
   心情:${mood}<br>
   精力:${energy}<br>
@@ -522,7 +485,6 @@ function showStatus() {
   `
 }
 
-// 初始显示
 showStatus()
 
 function showMoodIcon() {
@@ -533,7 +495,6 @@ function showMoodIcon() {
   icon.style.transform = "translateX(-50%)"
   icon.style.fontSize = "30px"
   icon.style.transition = "0.5s"
-
   if (mood > 80) {
     icon.innerText = "❤️"
   } else if (mood > 50) {
@@ -543,52 +504,41 @@ function showMoodIcon() {
   } else {
     icon.innerText = "💧"
   }
-
   document.body.appendChild(icon)
-
   setTimeout(() => {
     icon.remove()
   }, 1500)
 }
 
-// 创建心情图标
 let moodIcon = document.createElement('img');
 moodIcon.style.position = 'absolute';
-moodIcon.style.zIndex = '9999'; // 保证在前面
+moodIcon.style.zIndex = '9999';
 document.body.appendChild(moodIcon);
 
-// 更新心情图标位置(设置在人物头部)
 function updateMoodIcon() {
-  // 获取人物的位置
-  const character = document.querySelector('.character'); // 假设人物的class是.character
+  const character = document.querySelector('.character');
   if (!character) return;
-  
   const characterRect = character.getBoundingClientRect();
-  
-  // 更新心情图标位置
   moodIcon.style.left = `${characterRect.left + characterRect.width / 2 - moodIcon.width / 2}px`;
-  moodIcon.style.top = `${characterRect.top - moodIcon.height - 10}px`; // 在头顶10px位置
+  moodIcon.style.top = `${characterRect.top - moodIcon.height - 10}px`;
 }
 
-// 根据心情值设置图标
 function updateMoodIconBasedOnStatus() {
   if (mood > 70) {
-    moodIcon.src = "https://example.com/heart-icon.png";  // 高心情,显示心形图标
+    moodIcon.src = "https://example.com/heart-icon.png";
   } else if (mood > 40) {
-    moodIcon.src = "https://example.com/smile-icon.png"; // 中等心情,显示笑脸图标
+    moodIcon.src = "https://example.com/smile-icon.png";
   } else {
-    moodIcon.src = "https://example.com/sad-icon.png"; // 低心情,显示哭脸图标
+    moodIcon.src = "https://example.com/sad-icon.png";
   }
 }
 
-// 在每次更新心情时更新图标
 function update() {
   updateMoodIconBasedOnStatus();
   updateMoodIcon();
 }
 
-// 调用:每30分钟(30 * 60 * 1000毫秒)更新一次
-setInterval(update, 30 * 60 * 1000); // 每半小时更新一次
+setInterval(update, 30 * 60 * 1000);
 
 // ===== 面板开关控制 =====
 function openPanel(panelId) {
@@ -606,50 +556,58 @@ function closeAllPanels() {
   document.querySelectorAll('.interactive-panel').forEach(p => p.classList.remove('active'));
 }
 
-// 主UI按钮：打开对应面板
-document.getElementById('btnHome').addEventListener('click', (e) => {
-  e.stopPropagation();
-  openPanel('panelHome');
-});
+// ===== 等待DOM完全就绪后再绑定面板事件 =====
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM就绪，绑定面板事件');
 
-document.getElementById('btnGoOut').addEventListener('click', (e) => {
-  e.stopPropagation();
-  openPanel('panelGoOut');
-});
+  document.getElementById('btnHome').addEventListener('click', (e) => {
+    e.stopPropagation();
+    console.log('打开主页面板');
+    openPanel('panelHome');
+  });
 
-document.getElementById('btnFamily').addEventListener('click', (e) => {
-  e.stopPropagation();
-  openPanel('panelFamily');
-});
+  document.getElementById('btnGoOut').addEventListener('click', (e) => {
+    e.stopPropagation();
+    console.log('打开外出面板');
+    openPanel('panelGoOut');
+  });
 
-// Kitty手机：点击打开面板；再次点击则关闭返回主UI
-document.getElementById('btnKitty').addEventListener('click', (e) => {
-  e.stopPropagation();
-  const kittyPanel = document.getElementById('panelKitty');
-  if (kittyPanel.classList.contains('active')) {
-    closeAllPanels();
-  } else {
-    openPanel('panelKitty');
+  document.getElementById('btnFamily').addEventListener('click', (e) => {
+    e.stopPropagation();
+    console.log('打开家庭成员面板');
+    openPanel('panelFamily');
+  });
+
+  document.getElementById('btnKitty').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const kittyPanel = document.getElementById('panelKitty');
+    if (kittyPanel.classList.contains('active')) {
+      console.log('Kitty再次点击，关闭面板');
+      closeAllPanels();
+    } else {
+      console.log('打开小手机面板');
+      openPanel('panelKitty');
+    }
+  });
+
+  document.querySelectorAll('.panel-close').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const panelId = btn.getAttribute('data-panel');
+      console.log('关闭面板:', panelId);
+      closePanel(panelId);
+    });
+  });
+
+  const kittyReturnBtn = document.getElementById('kittyReturnBtn');
+  if (kittyReturnBtn) {
+    kittyReturnBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      console.log('小手机内返回');
+      closeAllPanels();
+    });
   }
 });
-
-// 面板内红色叉热区：点击关闭当前面板返回主UI
-document.querySelectorAll('.panel-close').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    const panelId = btn.getAttribute('data-panel');
-    closePanel(panelId);
-  });
-});
-
-// 小手机面板内：点击小手机图标返回主UI
-const kittyReturnBtn = document.getElementById('kittyReturnBtn');
-if (kittyReturnBtn) {
-  kittyReturnBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    closeAllPanels();
-  });
-}
 
 // 预加载按钮图片
 const buttonImages = [
