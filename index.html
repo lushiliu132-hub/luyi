@@ -248,7 +248,7 @@ body::before {
   padding-top: 2vh;
 }
 
-/* 主页信息覆盖层（分左右两栏，盖在空白卷轴上） */
+/* 主页信息覆盖层（上下递进式） */
 .home-stats-overlay {
   position: absolute;
   top: 0;
@@ -262,23 +262,23 @@ body::before {
   color: #5c3a1e;
 }
 
-/* 左栏：固定信息（姓名/年龄/身高/体重/生日） */
+/* 上栏：固定信息（姓名/年龄/身高/体重/生日） */
 .home-left-col {
   position: absolute;
   top: 24%;
-  left: 48%;
-  font-size: clamp(12px, 2.8vw, 15px);
-  line-height: 1.85;
+  left: 46%;
+  font-size: clamp(9px, 1.8vw, 12px);
+  line-height: 1.5;
   white-space: nowrap;
 }
 
-/* 右栏：动态数值（心情/疲惫/困意/饥饿） */
+/* 下栏：动态数值（心情/疲惫/困意/饥饿）位于固定信息正下方 */
 .home-right-col {
   position: absolute;
-  top: 24%;
-  left: 63%;
-  font-size: clamp(12px, 2.8vw, 15px);
-  line-height: 1.85;
+  top: 46%;
+  left: 46%;
+  font-size: clamp(9px, 1.8vw, 12px);
+  line-height: 1.5;
   white-space: nowrap;
 }
 
