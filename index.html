@@ -283,43 +283,262 @@ body::before {
 }
 
 
-/* ===== 小手机面板专用尺寸 & 位置 ===== */
+/* ===== 小手机面板专用样式 ===== */
 #panelKitty {
-  align-items: flex-start;
-  padding-top: 6vh;
+  align-items: center;
   justify-content: center;
 }
 
 #panelKitty .panel-content {
-  max-width: 40vw;
-  max-height: 60vh;
-  margin-left: -75px;
+  max-width: 350px;
+  max-height: 700px;
+  position: relative;
 }
 
-#panelKitty .panel-bg {
-  max-width: 40vw;
-  max-height: 60vh;
-}
-
-/* 面板内小手机图标热区（透明，正好盖在背景图底部的小手机图标上） */
-.kitty-home-btn {
+/* 手机边框 */
+.phone-frame {
   position: absolute;
-  bottom: 6%;
-  right: 8%;
-  width: 14%;
-  height: 10%;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* 手机屏幕内容区 */
+.phone-screen {
+  position: absolute;
+  top: 8%;
+  left: 6.5%;
+  width: 87%;
+  height: 84%;
+  overflow: hidden;
+  background: #fff;
+  border-radius: 12px;
+}
+
+/* 小手机关闭按钮 */
+.phone-close-btn {
+  position: absolute;
+  top: 1%;
+  right: 2%;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.9);
   border: none;
-  background: transparent;
+  border-radius: 50%;
   cursor: pointer;
-  z-index: 2001;
+  z-index: 200;
+  font-size: 20px;
+  line-height: 1;
+  color: #ff6b6b;
+  transition: all 0.2s;
+}
+
+.phone-close-btn:hover {
+  background: #fff;
+  transform: scale(1.1);
+}
+
+/* 小手机内的各个界面 */
+.phone-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  background-size: cover;
+  background-position: center;
+}
+
+.phone-page.active {
+  display: block;
+}
+
+/* 店铺列表热区 */
+.shop-list {
+  position: absolute;
+  top: 25%;
+  left: 8%;
+  width: 84%;
+  height: 60%;
+  overflow-y: auto;
+}
+
+.shop-item {
+  position: relative;
+  height: 16.6%;
+  margin-bottom: 2%;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  width: 100%;
   padding: 0;
   transition: transform 0.2s;
 }
-.kitty-home-btn:hover {
-  transform: scale(1.08);
+
+.shop-item:hover {
+  transform: scale(1.02);
 }
-.kitty-home-btn:active {
-  transform: scale(0.92);
+
+.shop-item:active {
+  transform: scale(0.98);
+}
+
+/* 商品列表热区 */
+.product-grid {
+  position: absolute;
+  top: 22%;
+  left: 8%;
+  width: 84%;
+  height: 58%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3%;
+  overflow-y: auto;
+}
+
+.product-item {
+  position: relative;
+  aspect-ratio: 1;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 0;
+  transition: transform 0.2s;
+}
+
+.product-item:hover {
+  transform: scale(1.05);
+}
+
+.product-item:active {
+  transform: scale(0.95);
+}
+
+.product-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 底部导航栏 */
+.phone-nav {
+  position: absolute;
+  bottom: 2%;
+  left: 8%;
+  width: 84%;
+  height: 10%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.nav-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 5px 15px;
+  transition: transform 0.2s;
+  flex: 1;
+  height: 100%;
+}
+
+.nav-btn:hover {
+  transform: scale(1.05);
+}
+
+.nav-btn:active {
+  transform: scale(0.95);
+}
+
+/* 返回按钮 */
+.back-btn {
+  position: absolute;
+  top: 3%;
+  left: 5%;
+  width: 35px;
+  height: 35px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #ff9800;
+  z-index: 50;
+  transition: transform 0.2s;
+}
+
+.back-btn:hover {
+  transform: scale(1.1);
+}
+
+.back-btn:active {
+  transform: scale(0.9);
+}
+
+/* 购物车提示 */
+.cart-badge {
+  position: absolute;
+  top: 70%;
+  right: 15%;
+  background: #ff6b6b;
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+/* 结算页面特殊样式 */
+.checkout-content {
+  position: absolute;
+  top: 15%;
+  left: 10%;
+  width: 80%;
+  height: 70%;
+  overflow-y: auto;
+}
+
+/* 支付成功动画 */
+@keyframes successPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.success-animation {
+  animation: successPulse 1.5s ease-in-out infinite;
+}
+
+/* 小窗口提示 */
+.mini-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 15px 25px;
+  border-radius: 10px;
+  font-size: 14px;
+  z-index: 300;
+  display: none;
+  white-space: nowrap;
+}
+
+.mini-popup.show {
+  display: block;
+  animation: fadeInOut 1.5s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
 }
 
 </style>
@@ -328,6 +547,7 @@ body::before {
 <body>
 
 <!-- 时钟组件 -->
+
 <div id="clockWidget">
   <img src="" alt="时钟" id="clockIcon">
   <div class="clock-overlay">
@@ -337,6 +557,7 @@ body::before {
 </div>
 
 <!-- 交互按钮 -->
+
 <button class="interactive-btn" id="btnGoOut" title="外出">
   <img src="https://i.ibb.co/ksckdZsy/IMG-4777.jpg" alt="外出">
 </button>
@@ -353,31 +574,31 @@ body::before {
   <img src="https://i.ibb.co/XxwWKQDr/IMG-4806.png" alt="Kitty手机">
 </button>
 
-<!-- ===== 互动面板层（必须放在script之前） ===== -->
+<!-- ===== 互动面板层 ===== -->
+
 <div id="panelHome" class="interactive-panel">
   <div class="panel-content">
-    <!-- 空白卷轴背景图 -->
     <img src="https://i.ibb.co/4wm5rnzr/IMG-4830.jpg" class="panel-bg" alt="主页面板">
     <button class="panel-close" data-panel="panelHome" title="返回"></button>
-    
-    <!-- 卷轴文字覆盖层 -->
-    <div class="home-stats-overlay">
-      <!-- 左栏：固定信息 -->
-      <div class="home-left-col">
-        <div>姓名：璐</div>
-        <div>年龄：19</div>
-        <div>身高：165</div>
-        <div>体重：52kg</div>
-        <div>生日：12月12日</div>
-      </div>
-      <!-- 右栏：动态数值 -->
-      <div class="home-right-col">
-        <div>心情：<span id="statMood">70</span>/100</div>
-        <div>疲惫值：<span id="statEnergy">60</span>/100</div>
-        <div>困意：<span id="statSleepiness">30</span>/100</div>
-        <div>饥饿值：<span id="statHunger">50</span>/100</div>
-      </div>
-    </div>
+
+```
+<div class="home-stats-overlay">
+  <div class="home-left-col">
+    <div>姓名：璐</div>
+    <div>年龄：19</div>
+    <div>身高：165</div>
+    <div>体重：52kg</div>
+    <div>生日：12月12日</div>
+  </div>
+  <div class="home-right-col">
+    <div>心情：<span id="statMood">70</span>/100</div>
+    <div>疲惫值：<span id="statEnergy">60</span>/100</div>
+    <div>困意：<span id="statSleepiness">30</span>/100</div>
+    <div>饥饿值：<span id="statHunger">50</span>/100</div>
+  </div>
+</div>
+```
+
   </div>
 </div>
 
@@ -395,12 +616,62 @@ body::before {
   </div>
 </div>
 
+<!-- ===== 小手机面板（新增交互功能） ===== -->
+
 <div id="panelKitty" class="interactive-panel">
   <div class="panel-content">
-    <img src="https://i.ibb.co/1tqK3Znb/IMG-4819.png" class="panel-bg" alt="小手机面板" id="kittyPanelBg">
-    <button class="panel-close" data-panel="panelKitty" title="返回"></button>
-    <!-- 透明热区：盖在面板背景图底部的小手机图标上，点击返回主UI -->
-    <button id="kittyHomeBtn" class="kitty-home-btn" title="返回主页"></button>
+    <!-- 手机边框 -->
+    <img src="https://i.ibb.co/ZRHKWhkm/IMG-4848.png" class="phone-frame" alt="手机边框">
+
+```
+<!-- 关闭按钮 -->
+<button class="phone-close-btn" id="phoneCloseBtn">×</button>
+
+<!-- 手机屏幕内容 -->
+<div class="phone-screen">
+  
+  <!-- 页面1: 外卖店铺列表 -->
+  <div class="phone-page active" id="pageShopList" style="background-image: url('https://i.ibb.co/PZHNr8vn/IMG-4837.jpg');">
+    <div class="shop-list" id="shopList">
+      <!-- 店铺项由JS动态生成 -->
+    </div>
+  </div>
+  
+  <!-- 页面2: 商品列表 -->
+  <div class="phone-page" id="pageProductList" style="background-image: url('https://i.ibb.co/HD58BfBL/IMG-4838.jpg');">
+    <button class="back-btn" id="backToShopList">←</button>
+    <div class="product-grid" id="productGrid">
+      <!-- 商品项由JS动态生成 -->
+    </div>
+    <div class="phone-nav">
+      <button class="nav-btn" id="navHome">🏠</button>
+      <button class="nav-btn" id="navCheckout">🛒</button>
+    </div>
+    <div class="cart-badge" id="cartBadge" style="display: none;">0</div>
+  </div>
+  
+  <!-- 页面3: 结算页面 -->
+  <div class="phone-page" id="pageCheckout" style="background-image: url('https://i.ibb.co/chgw0ym5/IMG-4842.png');">
+    <button class="back-btn" id="backToProducts">←</button>
+    <div class="checkout-content" id="checkoutContent">
+      <!-- 结算内容由JS动态生成 -->
+    </div>
+    <div class="phone-nav">
+      <button class="nav-btn" id="confirmOrder" style="background: #ff9800; color: white; border-radius: 8px; font-weight: bold;">确认支付</button>
+    </div>
+  </div>
+  
+  <!-- 页面4: 支付成功 -->
+  <div class="phone-page success-animation" id="pageSuccess" style="background-image: url('https://i.ibb.co/MkVd9y1V/IMG-4840.png');">
+    <button class="back-btn" id="backToHome" style="top: 90%; left: 50%; transform: translateX(-50%); background: #ff9800; color: white; width: 80%; border-radius: 8px; padding: 10px; font-weight: bold;">返回首页</button>
+  </div>
+  
+</div>
+
+<!-- 小窗口提示 -->
+<div class="mini-popup" id="miniPopup">已加入购物车</div>
+```
+
   </div>
 </div>
 
@@ -412,7 +683,6 @@ const CLOCK_ICONS = {
   evening: 'https://i.ibb.co/xtdH3Mpt/IMG-4773.png'
 };
 
-// 获取北京时间
 function getBeijingTime() {
   const now = new Date();
   const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
@@ -531,7 +801,6 @@ let sleepiness = 30
 
 updateStatusByTime()
 
-// 同步更新主页面板卷轴上的数值
 function updateHomeStats() {
   const moodEl = document.getElementById('statMood');
   const energyEl = document.getElementById('statEnergy');
@@ -580,65 +849,11 @@ function showStatus() {
   饥饿:${hunger}<br>
   困意:${sleepiness}
   `
-  updateHomeStats(); // 同步更新卷轴数值
+  updateHomeStats();
 }
 
 showStatus()
 
-function showMoodIcon() {
-  const icon = document.createElement("div")
-  icon.style.position = "fixed"
-  icon.style.top = "120px"
-  icon.style.left = "50%"
-  icon.style.transform = "translateX(-50%)"
-  icon.style.fontSize = "30px"
-  icon.style.transition = "0.5s"
-  if (mood > 80) {
-    icon.innerText = "❤️"
-  } else if (mood > 50) {
-    icon.innerText = "😊"
-  } else if (mood > 20) {
-    icon.innerText = "😐"
-  } else {
-    icon.innerText = "💧"
-  }
-  document.body.appendChild(icon)
-  setTimeout(() => {
-    icon.remove()
-  }, 1500)
-}
-
-let moodIcon = document.createElement('img');
-moodIcon.style.position = 'absolute';
-moodIcon.style.zIndex = '9999';
-document.body.appendChild(moodIcon);
-
-function updateMoodIcon() {
-  const character = document.querySelector('.character');
-  if (!character) return;
-  const characterRect = character.getBoundingClientRect();
-  moodIcon.style.left = `${characterRect.left + characterRect.width / 2 - moodIcon.width / 2}px`;
-  moodIcon.style.top = `${characterRect.top - moodIcon.height - 10}px`;
-}
-
-function updateMoodIconBasedOnStatus() {
-  if (mood > 70) {
-    moodIcon.src = "https://example.com/heart-icon.png";
-  } else if (mood > 40) {
-    moodIcon.src = "https://example.com/smile-icon.png";
-  } else {
-    moodIcon.src = "https://example.com/sad-icon.png";
-  }
-}
-
-function update() {
-  updateMoodIconBasedOnStatus();
-  updateMoodIcon();
-}
-
-setInterval(update, 30 * 60 * 1000);
-
-// ===== 面板开关控制 =====
 function openPanel(panelId) {
   document.querySelectorAll('.interactive-panel').forEach(p => p.classList.remove('active'));
   const panel = document.getElementById(panelId);
@@ -654,7 +869,6 @@ function closeAllPanels() {
   document.querySelectorAll('.interactive-panel').forEach(p => p.classList.remove('active'));
 }
 
-// ===== 直接绑定事件（脚本已在body底部，DOM已就绪） =====
 document.getElementById('btnHome').addEventListener('click', (e) => {
   e.stopPropagation();
   openPanel('panelHome');
@@ -672,12 +886,8 @@ document.getElementById('btnFamily').addEventListener('click', (e) => {
 
 document.getElementById('btnKitty').addEventListener('click', (e) => {
   e.stopPropagation();
-  const kittyPanel = document.getElementById('panelKitty');
-  if (kittyPanel.classList.contains('active')) {
-    closeAllPanels();
-  } else {
-    openPanel('panelKitty');
-  }
+  openPanel('panelKitty');
+  initPhoneApp();
 });
 
 document.querySelectorAll('.panel-close').forEach(btn => {
@@ -688,16 +898,6 @@ document.querySelectorAll('.panel-close').forEach(btn => {
   });
 });
 
-// 点击面板内小手机图标热区返回主UI
-const kittyHomeBtn = document.getElementById('kittyHomeBtn');
-if (kittyHomeBtn) {
-  kittyHomeBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    closeAllPanels();
-  });
-}
-
-// 预加载按钮图片
 const buttonImages = [
   'https://i.ibb.co/V0JkwTmM/IMG-4779.jpg',
   'https://i.ibb.co/ksckdZsy/IMG-4777.jpg',
@@ -708,6 +908,226 @@ const buttonImages = [
 buttonImages.forEach(url => {
   const img = new Image();
   img.src = url;
+});
+
+// ===== 小手机交互系统 =====
+
+// 店铺数据
+const SHOPS = [
+  { id: 'bento', name: '便当小铺', image: 'https://i.ibb.co/fGN8301V/IMG-4851.png' },
+  { id: 'milk_tea', name: '喝点奶茶', image: 'https://i.ibb.co/9kqHmwng/IMG-4852.png' },
+  { id: 'fast_food', name: '快餐店', image: 'https://i.ibb.co/9ksmDBGt/IMG-4857.png' },
+  { id: 'ice_cream', name: '甜甜冰淇淋', image: 'https://i.ibb.co/7tvVs2kr/IMG-4853.png' },
+  { id: 'porridge', name: '早餐粥铺', image: 'https://i.ibb.co/1tKzV0PT/IMG-4858.png' },
+  { id: 'noodle', name: '老李面馆', image: 'https://i.ibb.co/GvGJdp3J/IMG-4854.png' },
+  { id: 'bakery', name: '面包工坊', image: 'https://i.ibb.co/sp2D2QF0/IMG-4856.png' },
+  { id: 'fruit', name: '水果小摊', image: 'https://i.ibb.co/xKCgwfGh/IMG-4850.png' },
+  { id: 'store', name: '想念便利店', image: 'https://i.ibb.co/BVYB0t84/IMG-4855.png' }
+];
+
+// 商品数据（简化版，每个店铺9个商品）
+const PRODUCTS = {
+  bento: [
+    { id: 'b1', name: '便当A', price: 18, image: 'https://i.ibb.co/fGN8301V/IMG-4851.png' },
+    { id: 'b2', name: '便当B', price: 25, image: 'https://i.ibb.co/fGN8301V/IMG-4851.png' },
+    { id: 'b3', name: '便当C', price: 15, image: 'https://i.ibb.co/fGN8301V/IMG-4851.png' },
+    { id: 'b4', name: '便当D', price: 18, image: 'https://i.ibb.co/fGN8301V/IMG-4851.png' },
+    { id: 'b5', name: '便当E', price: 25, image: 'https://i.ibb.co/fGN8301V/IMG-4851.png' },
+    { id: 'b6', name: '便当F', price: 15, image: 'https://i.ibb.co/fGN8301V/IMG-4851.png' },
+    { id: 'b7', name: '便当G', price: 18, image: 'https://i.ibb.co/fGN8301V/IMG-4851.png' },
+    { id: 'b8', name: '便当H', price: 25, image: 'https://i.ibb.co/fGN8301V/IMG-4851.png' },
+    { id: 'b9', name: '便当I', price: 15, image: 'https://i.ibb.co/fGN8301V/IMG-4851.png' }
+  ],
+  milk_tea: [
+    { id: 'm1', name: '奶茶A', price: 18, image: 'https://i.ibb.co/9kqHmwng/IMG-4852.png' },
+    { id: 'm2', name: '奶茶B', price: 25, image: 'https://i.ibb.co/9kqHmwng/IMG-4852.png' },
+    { id: 'm3', name: '奶茶C', price: 15, image: 'https://i.ibb.co/9kqHmwng/IMG-4852.png' },
+    { id: 'm4', name: '奶茶D', price: 18, image: 'https://i.ibb.co/9kqHmwng/IMG-4852.png' },
+    { id: 'm5', name: '奶茶E', price: 25, image: 'https://i.ibb.co/9kqHmwng/IMG-4852.png' },
+    { id: 'm6', name: '奶茶F', price: 15, image: 'https://i.ibb.co/9kqHmwng/IMG-4852.png' },
+    { id: 'm7', name: '奶茶G', price: 18, image: 'https://i.ibb.co/9kqHmwng/IMG-4852.png' },
+    { id: 'm8', name: '奶茶H', price: 25, image: 'https://i.ibb.co/9kqHmwng/IMG-4852.png' },
+    { id: 'm9', name: '奶茶I', price: 15, image: 'https://i.ibb.co/9kqHmwng/IMG-4852.png' }
+  ],
+  // 其他店铺类似...
+};
+
+// 购物车
+let cart = [];
+let currentShop = null;
+
+// 初始化手机应用
+function initPhoneApp() {
+  renderShopList();
+}
+
+// 渲染店铺列表
+function renderShopList() {
+  const shopList = document.getElementById('shopList');
+  shopList.innerHTML = '';
+  
+  SHOPS.forEach(shop => {
+    const item = document.createElement('button');
+    item.className = 'shop-item';
+    item.onclick = (e) => {
+      e.stopPropagation();
+      openShop(shop.id);
+    };
+    shopList.appendChild(item);
+  });
+}
+
+// 打开店铺
+function openShop(shopId) {
+  currentShop = shopId;
+  renderProductList(shopId);
+  switchPage('pageProductList');
+}
+
+// 渲染商品列表
+function renderProductList(shopId) {
+  const productGrid = document.getElementById('productGrid');
+  productGrid.innerHTML = '';
+  
+  const products = PRODUCTS[shopId] || PRODUCTS.bento;
+  
+  products.forEach(product => {
+    const item = document.createElement('button');
+    item.className = 'product-item';
+    item.innerHTML = `<img src="${product.image}" alt="${product.name}">`;
+    item.onclick = (e) => {
+      e.stopPropagation();
+      addToCart(product);
+    };
+    productGrid.appendChild(item);
+  });
+}
+
+// 添加到购物车
+function addToCart(product) {
+  cart.push(product);
+  updateCartBadge();
+  showMiniPopup('已加入购物车');
+  
+  // 更新状态
+  hunger -= 5;
+  mood += 3;
+  showStatus();
+}
+
+// 更新购物车角标
+function updateCartBadge() {
+  const badge = document.getElementById('cartBadge');
+  if (cart.length > 0) {
+    badge.style.display = 'flex';
+    badge.textContent = cart.length;
+  } else {
+    badge.style.display = 'none';
+  }
+}
+
+// 显示小提示
+function showMiniPopup(message) {
+  const popup = document.getElementById('miniPopup');
+  popup.textContent = message;
+  popup.classList.add('show');
+  
+  setTimeout(() => {
+    popup.classList.remove('show');
+  }, 1500);
+}
+
+// 切换页面
+function switchPage(pageId) {
+  document.querySelectorAll('.phone-page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+}
+
+// 结算页面
+function openCheckout() {
+  if (cart.length === 0) {
+    showMiniPopup('购物车是空的');
+    return;
+  }
+  
+  renderCheckout();
+  switchPage('pageCheckout');
+}
+
+// 渲染结算内容
+function renderCheckout() {
+  const content = document.getElementById('checkoutContent');
+  const total = cart.reduce((sum, item) => sum + item.price, 0);
+  
+  content.innerHTML = `
+    <div style="padding: 20px; color: #333;">
+      <h3 style="text-align: center; margin-bottom: 20px;">我的订单</h3>
+      ${cart.map(item => `
+        <div style="display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #eee;">
+          <span>${item.name}</span>
+          <span>¥${item.price}</span>
+        </div>
+      `).join('')}
+      <div style="margin-top: 20px; text-align: right; font-size: 18px; font-weight: bold;">
+        总计: ¥${total}
+      </div>
+    </div>
+  `;
+}
+
+// 确认支付
+function confirmPayment() {
+  switchPage('pageSuccess');
+  
+  // 3秒后自动返回首页
+  setTimeout(() => {
+    resetPhone();
+  }, 3000);
+}
+
+// 重置手机状态
+function resetPhone() {
+  cart = [];
+  currentShop = null;
+  updateCartBadge();
+  switchPage('pageShopList');
+}
+
+// 事件绑定
+document.getElementById('phoneCloseBtn').addEventListener('click', (e) => {
+  e.stopPropagation();
+  closeAllPanels();
+  resetPhone();
+});
+
+document.getElementById('backToShopList').addEventListener('click', (e) => {
+  e.stopPropagation();
+  switchPage('pageShopList');
+});
+
+document.getElementById('backToProducts').addEventListener('click', (e) => {
+  e.stopPropagation();
+  switchPage('pageProductList');
+});
+
+document.getElementById('backToHome').addEventListener('click', (e) => {
+  e.stopPropagation();
+  resetPhone();
+});
+
+document.getElementById('navHome').addEventListener('click', (e) => {
+  e.stopPropagation();
+  switchPage('pageShopList');
+});
+
+document.getElementById('navCheckout').addEventListener('click', (e) => {
+  e.stopPropagation();
+  openCheckout();
+});
+
+document.getElementById('confirmOrder').addEventListener('click', (e) => {
+  e.stopPropagation();
+  confirmPayment();
 });
 
 </script>
