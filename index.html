@@ -248,20 +248,38 @@ body::before {
   padding-top: 2vh;
 }
 
-/* 主页状态数值覆盖层（精确盖住卷轴上的 xx/100） */
+/* 主页信息覆盖层（分左右两栏，盖在空白卷轴上） */
 .home-stats-overlay {
   position: absolute;
-  top: 29%;
-  left: 47%;
-  font-family: "SimHei", "Microsoft YaHei", "Heiti SC", sans-serif;
-  font-size: clamp(11px, 2.6vw, 14px);
-  font-weight: bold;
-  color: #5c3a1e;
-  line-height: 1.75;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 10;
+  font-family: "SimHei", "Microsoft YaHei", "Heiti SC", sans-serif;
+  font-weight: bold;
+  color: #5c3a1e;
+}
+
+/* 左栏：固定信息（姓名/年龄/身高/体重/生日） */
+.home-left-col {
+  position: absolute;
+  top: 24%;
+  left: 48%;
+  font-size: clamp(12px, 2.8vw, 15px);
+  line-height: 1.85;
   white-space: nowrap;
-  text-shadow: none;
+}
+
+/* 右栏：动态数值（心情/疲惫/困意/饥饿） */
+.home-right-col {
+  position: absolute;
+  top: 24%;
+  left: 63%;
+  font-size: clamp(12px, 2.8vw, 15px);
+  line-height: 1.85;
+  white-space: nowrap;
 }
 
 /* ===== 小手机面板专用尺寸 & 位置 ===== */
@@ -337,14 +355,27 @@ body::before {
 <!-- ===== 互动面板层（必须放在script之前） ===== -->
 <div id="panelHome" class="interactive-panel">
   <div class="panel-content">
-    <img src="https://i.ibb.co/DDw1LnM1/IMG-4433.jpg" class="panel-bg" alt="主页面板">
+    <!-- 空白卷轴背景图 -->
+    <img src="https://i.ibb.co/4wm5rnzr/IMG-4830.jpg" class="panel-bg" alt="主页面板">
     <button class="panel-close" data-panel="panelHome" title="返回"></button>
-    <!-- 状态数值覆盖层：精确盖住卷轴上的 xx/100 -->
+    
+    <!-- 卷轴文字覆盖层 -->
     <div class="home-stats-overlay">
-      <div>心情: <span id="statMood">70</span>/100</div>
-      <div>疲惫值: <span id="statEnergy">60</span>/100</div>
-      <div>困意: <span id="statSleepiness">30</span>/100</div>
-      <div>饥饿值: <span id="statHunger">50</span>/100</div>
+      <!-- 左栏：固定信息 -->
+      <div class="home-left-col">
+        <div>姓名：璐</div>
+        <div>年龄：19</div>
+        <div>身高：165</div>
+        <div>体重：52kg</div>
+        <div>生日：12月12日</div>
+      </div>
+      <!-- 右栏：动态数值 -->
+      <div class="home-right-col">
+        <div>心情：<span id="statMood">70</span>/100</div>
+        <div>疲惫值：<span id="statEnergy">60</span>/100</div>
+        <div>困意：<span id="statSleepiness">30</span>/100</div>
+        <div>饥饿值：<span id="statHunger">50</span>/100</div>
+      </div>
     </div>
   </div>
 </div>
@@ -682,4 +713,3 @@ buttonImages.forEach(url => {
 
 </body>
 </html>
-
