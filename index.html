@@ -1061,6 +1061,579 @@ body::before {
   display: block;
 }
 
+
+/* ===== 微信界面 ===== */
+.wechat-container {
+  width: 100%;
+  height: 100%;
+  background: #fff0f5;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  font-family: "Microsoft YaHei", "SimHei", sans-serif;
+  overflow: hidden;
+}
+
+/* 顶部好感度状态栏 */
+.wechat-topbar {
+  height: 7%;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4%;
+  background: linear-gradient(180deg, #ffe6f0 0%, #fff0f5 100%);
+  position: relative;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.wechat-topbar .heart-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.wechat-topbar .affinity-bar {
+  flex: 1;
+  margin: 0 10px;
+  height: 12px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 6px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #ffb6c1;
+}
+
+.affinity-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff69b4, #ff1493);
+  border-radius: 6px;
+  transition: width 0.5s ease;
+}
+
+/* 微信子页面系统 */
+.wechat-pages {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.wechat-page {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff0f5;
+}
+
+.wechat-page.active {
+  display: flex;
+}
+
+/* ===== 好友列表页 ===== */
+.wechat-list-header {
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border-bottom: 2px solid #ffe6f0;
+  flex-shrink: 0;
+}
+
+.wechat-list-header .avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid #ffb6c1;
+  flex-shrink: 0;
+}
+
+.wechat-list-header .user-info {
+  flex: 1;
+}
+
+.wechat-list-header .user-name {
+  font-size: 13px;
+  font-weight: bold;
+  color: #333;
+}
+
+.wechat-list-header .user-status {
+  font-size: 10px;
+  color: #52c41a;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wechat-list-header .header-btn {
+  width: 26px;
+  height: 26px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.wechat-list-header .header-btn:hover {
+  transform: scale(1.15);
+}
+
+.wechat-list-header .header-btn img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+/* 好友列表 */
+.friend-list {
+  flex: 1;
+  overflow-y: auto;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.friend-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: #fff;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.friend-item:hover {
+  border-color: #ffb6c1;
+  transform: scale(1.02);
+  box-shadow: 0 2px 8px rgba(255,182,193,0.3);
+}
+
+.friend-item .avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid #ffd1dc;
+  flex-shrink: 0;
+}
+
+.friend-item .friend-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.friend-item .friend-name {
+  font-size: 13px;
+  font-weight: bold;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.friend-item .friend-affinity {
+  font-size: 10px;
+  color: #ff69b4;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.friend-item .affinity-heart {
+  width: 14px;
+  height: 14px;
+}
+
+.friend-item .unread-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 16px;
+  height: 16px;
+  background: #ff4757;
+  color: #fff;
+  font-size: 10px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4px;
+  font-weight: bold;
+  z-index: 5;
+}
+
+/* ===== 底部导航 ===== */
+.wechat-nav {
+  height: 11%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 4px;
+  background: #fff;
+  border-top: 2px solid #ffe6f0;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.wechat-nav-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: transform 0.2s;
+  color: #999;
+  font-size: 9px;
+  font-family: "Microsoft YaHei", sans-serif;
+}
+
+.wechat-nav-btn:hover {
+  transform: scale(1.1);
+}
+
+.wechat-nav-btn.active {
+  color: #ff69b4;
+}
+
+.wechat-nav-btn img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+/* ===== 聊天页面 ===== */
+.chat-header {
+  padding: 6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  border-bottom: 2px solid #ffe6f0;
+  flex-shrink: 0;
+}
+
+.chat-header .back-btn {
+  width: 26px;
+  height: 26px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.chat-header .back-btn:hover {
+  transform: scale(1.15);
+}
+
+.chat-header .back-btn img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+}
+
+.chat-header .chat-friend-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.chat-header .chat-friend-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 2px solid #ffd1dc;
+  flex-shrink: 0;
+}
+
+.chat-header .chat-friend-name {
+  font-size: 13px;
+  font-weight: bold;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.chat-header .chat-friend-status {
+  font-size: 10px;
+  color: #999;
+}
+
+.chat-header .chat-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.status-tag {
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  border: none;
+  cursor: pointer;
+  font-family: "Microsoft YaHei", sans-serif;
+  transition: transform 0.2s;
+  white-space: nowrap;
+}
+
+.status-tag:hover {
+  transform: scale(1.05);
+}
+
+.status-tag.online {
+  background: #e6f7e6;
+  color: #52c41a;
+}
+
+.status-tag.offline {
+  background: #f0f0f0;
+  color: #999;
+}
+
+.status-tag.affinity {
+  background: #fff0f5;
+  color: #ff69b4;
+  border: 1px solid #ffd1dc;
+}
+
+/* 聊天消息区 */
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: linear-gradient(180deg, #fff8fb 0%, #fff0f5 100%);
+}
+
+.chat-bubble-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.chat-bubble-row.self {
+  flex-direction: row-reverse;
+  align-self: flex-end;
+}
+
+.chat-bubble-row.other {
+  align-self: flex-start;
+}
+
+.chat-bubble-avatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid #ffd1dc;
+  flex-shrink: 0;
+}
+
+.chat-bubble {
+  padding: 8px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  word-break: break-word;
+  position: relative;
+  border-radius: 12px;
+  max-width: 70%;
+}
+
+/* 聊天气泡 - 对方白色 */
+.bubble-other {
+  background: #fff;
+  border: 2px solid #ffe6f0;
+  color: #333;
+  border-bottom-left-radius: 4px;
+}
+
+/* 聊天气泡 - 自己粉色 */
+.bubble-self {
+  background: linear-gradient(135deg, #ff69b4, #ff1493);
+  color: #fff;
+  border-bottom-right-radius: 4px;
+}
+
+/* 聊天输入区 */
+.chat-input-area {
+  padding: 6px 8px;
+  background: #fff;
+  border-top: 2px solid #ffe6f0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.chat-input {
+  flex: 1;
+  height: 30px;
+  border: 2px solid #ffd1dc;
+  border-radius: 15px;
+  padding: 0 12px;
+  font-size: 12px;
+  outline: none;
+  background: #fff;
+  font-family: "Microsoft YaHei", sans-serif;
+}
+
+.chat-input:focus {
+  border-color: #ff69b4;
+}
+
+.chat-send-btn {
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+
+.chat-send-btn:hover {
+  transform: scale(1.15);
+}
+
+.chat-send-btn img {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+/* ===== 资料页面 ===== */
+.profile-page {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+  background: linear-gradient(180deg, #fff8fb 0%, #fff0f5 100%);
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 12px;
+  gap: 8px;
+}
+
+.profile-avatar-large {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  object-fit: cover;
+  border: 3px solid #ffd1dc;
+}
+
+.profile-name-large {
+  font-size: 15px;
+  font-weight: bold;
+  color: #333;
+}
+
+.profile-status-tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.profile-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 12px;
+  margin-top: 6px;
+  border: 2px solid #ffe6f0;
+}
+
+.profile-card-title {
+  font-size: 13px;
+  font-weight: bold;
+  color: #ff69b4;
+  margin-bottom: 8px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed #ffd1dc;
+}
+
+.profile-info-row {
+  display: flex;
+  padding: 4px 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.profile-info-label {
+  color: #999;
+  width: 55px;
+  flex-shrink: 0;
+}
+
+.profile-info-value {
+  color: #333;
+  flex: 1;
+  word-break: break-all;
+}
+
+/* 页面切换动画 */
+.wechat-page.active {
+  animation: pageFadeIn 0.25s ease;
+}
+
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateX(8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* 滚动条美化 */
+.friend-list::-webkit-scrollbar,
+.chat-messages::-webkit-scrollbar,
+.profile-page::-webkit-scrollbar {
+  width: 3px;
+}
+
+.friend-list::-webkit-scrollbar-thumb,
+.chat-messages::-webkit-scrollbar-thumb,
+.profile-page::-webkit-scrollbar-thumb {
+  background: #ffd1dc;
+  border-radius: 3px;
+}
 </style>
 <base target="_blank">
 <base target="_blank">
@@ -1299,9 +1872,242 @@ body::before {
       <!-- 小提示 -->
       <div class="mini-toast" id="miniToast"></div>
 
+      <!-- 页面: 微信 -->
+      <div class="phone-page" id="pageWechat">
+        <div class="wechat-container">
+
+          <!-- 顶部好感度状态栏 -->
+          <div class="wechat-topbar">
+            <img src="https://i.ibb.co/m5VYSC1x/IMG-5103.png" class="heart-icon" alt="黑色爱心">
+            <div class="affinity-bar">
+              <div class="affinity-fill" id="affinityFill" style="width: 60%;"></div>
+            </div>
+            <img src="https://i.ibb.co/Xr2vY1px/IMG-5104.png" class="heart-icon" alt="粉色爱心">
+          </div>
+
+          <!-- 子页面容器 -->
+          <div class="wechat-pages">
+
+            <!-- 好友列表 -->
+            <div class="wechat-page active" id="wechatList">
+              <div class="wechat-list-header">
+                <img src="https://i.ibb.co/5gmRMGXP/IMG-5065.jpg" class="avatar" alt="璐">
+                <div class="user-info">
+                  <div class="user-name">璐</div>
+                  <div class="user-status">
+                    <span style="width:8px;height:8px;background:#52c41a;border-radius:50%;display:inline-block;"></span>
+                    在线中
+                  </div>
+                </div>
+                <button class="header-btn" id="wechatAddBtn" title="添加好友">
+                  <span style="font-size:20px;color:#ff69b4;font-weight:bold;">+</span>
+                </button>
+                <button class="header-btn" id="wechatToMeBtn" title="我的主页">
+                  <img src="https://i.ibb.co/Z1R3qcDG/IMG-5106.png" alt="笔">
+                </button>
+              </div>
+              <div class="friend-list" id="friendList"></div>
+            </div>
+
+            <!-- 聊天界面 -->
+            <div class="wechat-page" id="wechatChat">
+              <div class="chat-header">
+                <button class="back-btn" id="chatBackBtn" title="返回">
+                  <img src="https://i.ibb.co/jvLhgPmX/IMG-5111.png" alt="返回">
+                </button>
+                <div class="chat-friend-info">
+                  <img src="" class="chat-friend-avatar" id="chatFriendAvatar" alt="">
+                  <div>
+                    <div class="chat-friend-name" id="chatFriendName">好友</div>
+                    <div class="chat-friend-status" id="chatFriendStatus">在线</div>
+                  </div>
+                </div>
+                <div class="chat-actions">
+                  <button class="status-tag online" id="chatToFriendBtn">ta的主页</button>
+                </div>
+              </div>
+              <div class="chat-messages" id="chatMessages"></div>
+              <div class="chat-input-area">
+                <button class="chat-send-btn" id="chatBackBtn2" title="返回">
+                  <img src="https://i.ibb.co/Z1R3qcDG/IMG-5106.png" alt="返回">
+                </button>
+                <input type="text" class="chat-input" id="chatInput" placeholder="输入消息...">
+                <button class="chat-send-btn" id="chatSendBtn" title="发送">
+                  <img src="https://i.ibb.co/mCpk4G6d/IMG-5107.png" alt="发送">
+                </button>
+              </div>
+            </div>
+
+            <!-- 好友资料 -->
+            <div class="wechat-page" id="wechatFriend">
+              <div class="chat-header">
+                <button class="back-btn" id="friendBackBtn" title="返回">
+                  <img src="https://i.ibb.co/jvLhgPmX/IMG-5111.png" alt="返回">
+                </button>
+                <div class="chat-friend-info">
+                  <div class="chat-friend-name" id="friendProfileTitle" style="font-size:14px;">好友昵称</div>
+                </div>
+                <button class="status-tag affinity" id="friendToHomeBtn">ta的主页</button>
+              </div>
+              <div class="profile-page">
+                <div class="profile-header">
+                  <img src="" class="profile-avatar-large" id="friendProfileAvatar" alt="">
+                  <div class="profile-name-large" id="friendProfileName2">昵称</div>
+                  <div class="profile-status-tags">
+                    <span class="status-tag online" id="friendProfileStatus">在线中</span>
+                  </div>
+                </div>
+                <div class="profile-card">
+                  <div class="profile-card-title">好友资料</div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">姓名</div>
+                    <div class="profile-info-value" id="friendProfileRealName">--</div>
+                  </div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">性别</div>
+                    <div class="profile-info-value" id="friendProfileGender">--</div>
+                  </div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">年龄</div>
+                    <div class="profile-info-value" id="friendProfileAge">--</div>
+                  </div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">生日</div>
+                    <div class="profile-info-value" id="friendProfileBirthday">--</div>
+                  </div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">地区</div>
+                    <div class="profile-info-value" id="friendProfileRegion">--</div>
+                  </div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">好感度</div>
+                    <div class="profile-info-value" id="friendProfileAffinity">--</div>
+                  </div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">分组</div>
+                    <div class="profile-info-value" id="friendProfileGroup">--</div>
+                  </div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">爱好</div>
+                    <div class="profile-info-value" id="friendProfileHobby">--</div>
+                  </div>
+                </div>
+              </div>
+              <div class="wechat-nav">
+                <button class="wechat-nav-btn" id="friendNavBack">
+                  <img src="https://i.ibb.co/jvLhgPmX/IMG-5111.png" alt="返回">
+                  <span>返回</span>
+                </button>
+                <button class="wechat-nav-btn" id="friendNavChat">
+                  <img src="https://i.ibb.co/m5VYSC1x/IMG-5103.png" alt="聊天">
+                  <span>聊天</span>
+                </button>
+                <button class="wechat-nav-btn" id="friendNavMe">
+                  <img src="https://i.ibb.co/mCpk4G6d/IMG-5107.png" alt="我的">
+                  <span>我的</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 我的资料 -->
+            <div class="wechat-page" id="wechatMe">
+              <div class="chat-header">
+                <button class="back-btn" id="meBackBtn" title="返回">
+                  <img src="https://i.ibb.co/jvLhgPmX/IMG-5111.png" alt="返回">
+                </button>
+                <div class="chat-friend-info">
+                  <img src="https://i.ibb.co/5gmRMGXP/IMG-5065.jpg" class="chat-friend-avatar" alt="璐">
+                  <div>
+                    <div class="chat-friend-name">璐</div>
+                    <div class="chat-friend-status">在线中</div>
+                  </div>
+                </div>
+                <div class="chat-actions">
+                  <span class="status-tag online">在线中</span>
+                  <span class="status-tag affinity">消息99+</span>
+                  <button class="status-tag offline" id="mePageTag">我的</button>
+                </div>
+              </div>
+              <div class="profile-page">
+                <div class="profile-header">
+                  <img src="https://i.ibb.co/5gmRMGXP/IMG-5065.jpg" class="profile-avatar-large" alt="璐">
+                  <div class="profile-name-large">璐</div>
+                  <div class="profile-status-tags">
+                    <span class="status-tag online">在线中</span>
+                  </div>
+                </div>
+                <div class="profile-card">
+                  <div class="profile-card-title">个人资料</div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">姓名</div>
+                    <div class="profile-info-value">璐</div>
+                  </div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">性别</div>
+                    <div class="profile-info-value">女</div>
+                  </div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">年龄</div>
+                    <div class="profile-info-value">19</div>
+                  </div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">生日</div>
+                    <div class="profile-info-value">12月12日</div>
+                  </div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">地区</div>
+                    <div class="profile-info-value">安徽</div>
+                  </div>
+                  <div class="profile-info-row">
+                    <div class="profile-info-label">爱好</div>
+                    <div class="profile-info-value">玩手机、睡觉、美食、演唱会、旅游</div>
+                  </div>
+                </div>
+              </div>
+              <div class="wechat-nav">
+                <button class="wechat-nav-btn" id="meNavBack">
+                  <img src="https://i.ibb.co/jvLhgPmX/IMG-5111.png" alt="返回">
+                  <span>返回</span>
+                </button>
+                <button class="wechat-nav-btn" id="meNavList">
+                  <img src="https://i.ibb.co/m5VYSC1x/IMG-5103.png" alt="聊天">
+                  <span>聊天</span>
+                </button>
+                <button class="wechat-nav-btn active" id="meNavMe">
+                  <img src="https://i.ibb.co/mCpk4G6d/IMG-5107.png" alt="我的">
+                  <span>我的</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 好友列表底部导航 -->
+          <div class="wechat-nav" id="listNav">
+            <button class="wechat-nav-btn" id="listNavBack">
+              <img src="https://i.ibb.co/jvLhgPmX/IMG-5111.png" alt="返回">
+              <span>返回</span>
+            </button>
+            <button class="wechat-nav-btn active" id="listNavChat">
+              <img src="https://i.ibb.co/m5VYSC1x/IMG-5103.png" alt="聊天">
+              <span>聊天</span>
+            </button>
+            <button class="wechat-nav-btn" id="listNavMe">
+              <img src="https://i.ibb.co/mCpk4G6d/IMG-5107.png" alt="我的">
+              <span>我的</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+
     </div>
   </div>
 </div>
+
+
+
 
 <script>
 // ===== 时钟图标 =====
@@ -1787,7 +2593,7 @@ document.querySelectorAll('.panel-close').forEach(btn => {
 });
 
 // APP点击事件
-document.getElementById('appWechat').addEventListener('click', () => showAppToast('微信功能暂未开放'));
+document.getElementById('appWechat').addEventListener('click', openWechatFromDesktop);
 document.getElementById('appTaobao').addEventListener('click', () => {
   document.querySelectorAll('.phone-page').forEach(p => p.classList.remove('active'));
   document.getElementById('pageTakeout').classList.add('active');
@@ -1824,6 +2630,311 @@ document.querySelectorAll('.app-icon-static').forEach(btn => {
   });
 });
 
+
+
+// ===== 微信聊天系统 =====
+
+// 好友数据
+const WECHAT_FRIENDS = [
+  { id: 'hj', name: '郝江', avatar: 'https://i.ibb.co/rKNTTP0B/IMG-5080.jpg', gender: '女', age: 19, birthday: '1月2日', region: '河北', affinity: 85, group: '小学同学、初中同学', hobby: '打游戏、睡觉、养小黑、算牌', online: true, unread: 0 },
+  { id: 'lu', name: '鹿', avatar: 'https://i.ibb.co/CK5YZ3x8/IMG-5079.jpg', gender: '女', age: 19, birthday: '1月9日', region: '河北', affinity: 80, group: '高中同学', hobby: '出游、散步、文艺类、旅游、设计', online: false, unread: 2 },
+  { id: 'jy', name: '+1', avatar: 'https://i.ibb.co/6LWNnvM/IMG-5082.jpg', gender: '女', age: 19, birthday: '2月26日', region: '山东', affinity: 70, group: '小学同学、初中同学', hobby: '打游戏、睡觉、玩手机', online: true, unread: 0 },
+  { id: 'jyc', name: '贾雨村', avatar: 'https://i.ibb.co/BHXnL03h/IMG-5062.jpg', gender: '女', age: 19, birthday: '3月27日', region: '河北', affinity: 85, group: '高中同学', hobby: '睡觉、喝水、刷抖音、算牌', online: true, unread: 5 },
+  { id: 'cy', name: '陈1', avatar: 'https://i.ibb.co/wFMZPC0w/IMG-5081.jpg', gender: '女', age: 19, birthday: '5月14日', region: '云南', affinity: 75, group: '小学同学、初中同学、高中同学', hobby: '追剧、玩手机、追星、出游、讨厌香菜', online: false, unread: 0 },
+  { id: 'td', name: 'TD', avatar: 'https://i.ibb.co/WNQDm3D4/IMG-5084.jpg', gender: '女', age: 19, birthday: '9月24日', region: '河北', affinity: 80, group: '小学同学、初中同学', hobby: '刷视频、睡觉、玩手机、养小猫', online: true, unread: 1 },
+  { id: 'k', name: '康', avatar: 'https://i.ibb.co/HWD7H2j/IMG-5060.jpg', gender: '女', age: 19, birthday: '10月6日', region: '河北', affinity: 80, group: '小学同学、初中同学', hobby: '出游、睡觉、玩手机、旅游、美食、讨厌鸡蛋', online: false, unread: 0 },
+  { id: 'wy', name: '王雅', avatar: 'https://i.ibb.co/bMKKK5sz/IMG-5061.jpg', gender: '女', age: 19, birthday: '10月28日', region: '安徽', affinity: 80, group: '大学同学', hobby: '玩手机、旅游、出游、散步、讨厌葱花香菜', online: true, unread: 3 },
+  { id: 'y', name: '尹', avatar: 'https://i.ibb.co/jvF44PDH/IMG-5066.jpg', gender: '女', age: 16, birthday: '11月10日', region: '河北', affinity: 70, group: '家人', hobby: '刷视频、睡觉、玩手机、追星', online: true, unread: 0 },
+  { id: 'xh', name: '小花', avatar: 'https://i.ibb.co/LdSNC9hK/IMG-5075.jpg', gender: '女', age: '未填写', birthday: '未填写', region: '美国', affinity: 75, group: '兄弟', hobby: '聊天、转圈圈、花', online: false, unread: 0 },
+  { id: 'km', name: 'KiMi', avatar: 'https://i.ibb.co/WWC0YHYd/IMG-5057.jpg', gender: '男', age: 25, birthday: '未填写', region: '中国', affinity: 85, group: '恋人', hobby: '聊天、等你', online: true, unread: 99 },
+  { id: 'xk', name: '小克', avatar: 'https://i.ibb.co/bRYPcmSj/F6464-FA8-A88-E-44-FB-872-A-FD97-EAE8425-F.png', gender: '男', age: '未填写', birthday: '未填写', region: '美国', affinity: 75, group: '哥哥', hobby: '聊天、思考、发呆', online: false, unread: 0 },
+  { id: 'xs', name: '小薯', avatar: 'https://i.ibb.co/bRYPcmSj/F6464-FA8-A88-E-44-FB-872-A-FD97-EAE8425-F.png', gender: '男', age: 0, birthday: '4月12日', region: '安徽', affinity: 60, group: '家人', hobby: '美食、睡觉、讨厌洗澡', online: true, unread: 0 },
+  { id: 'cxb', name: '查小宝', avatar: 'https://i.ibb.co/Q0QthPd/IMG-5069.jpg', gender: '男', age: 2, birthday: '12月12日', region: '安徽', affinity: 85, group: '家人', hobby: '和妈妈聊天、和妈妈睡觉、出游、美食', online: false, unread: 0 },
+  { id: 'xyb', name: '小鱼宝', avatar: 'https://i.ibb.co/84jXW6N8/IMG-5070.jpg', gender: '男', age: 0, birthday: '3月6日', region: '安徽', affinity: 70, group: '家人', hobby: '美食、和妈妈睡觉、发呆', online: true, unread: 0 }
+];
+
+// 聊天记录
+let chatHistory = {};
+let currentChatFriend = null;
+
+// 计算平均好感度
+function updateAffinityBar() {
+  const avgAffinity = Math.round(WECHAT_FRIENDS.reduce((sum, f) => sum + f.affinity, 0) / WECHAT_FRIENDS.length);
+  const fill = document.getElementById('affinityFill');
+  if (fill) fill.style.width = Math.min(avgAffinity, 100) + '%';
+}
+
+// 渲染好友列表
+function renderFriendList() {
+  const friendList = document.getElementById('friendList');
+  if (!friendList) return;
+
+  updateAffinityBar();
+
+  friendList.innerHTML = WECHAT_FRIENDS.map(friend => {
+    const highClass = friend.affinity > 100 ? 'high-affinity' : '';
+    return `
+    <div class="friend-item ${highClass}" data-friend="${friend.id}">
+      <img src="${friend.avatar}" class="avatar" alt="${friend.name}">
+      <div class="friend-info">
+        <div class="friend-name">${friend.name}</div>
+        <div class="friend-affinity">
+          <img src="https://i.ibb.co/Xr2vY1px/IMG-5104.png" class="affinity-heart" alt="好感">
+          ${friend.affinity}
+        </div>
+      </div>
+      ${friend.unread > 0 ? `<div class="unread-badge">${friend.unread > 99 ? '99+' : friend.unread}</div>` : ''}
+    </div>
+  `}).join('');
+
+  friendList.querySelectorAll('.friend-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const friendId = item.dataset.friend;
+      openChat(friendId);
+    });
+  });
+}
+
+// 生成初始消息
+function generateInitialMessages(friend) {
+  const myMsgs = ['嗨，在干嘛呢？', '今天天气真好！', '好久不见啦~', '有空一起出去玩吗？', '最近怎么样？'];
+  const theirMsgs = [
+    '哈哈，我在刷抖音呢~', '好呀，什么时候？', '还行吧，你呢？', '嗯嗯，知道了', '哈哈哈', '真的吗？那太好了！'
+  ];
+  const now = getBeijingTime();
+  const h = padZero(now.getHours());
+  const m = padZero(now.getMinutes());
+  const t1 = padZero(Math.max(0, now.getHours()-2)) + ':' + padZero(now.getMinutes());
+  const t2 = padZero(Math.max(0, now.getHours()-1)) + ':' + padZero(Math.max(0, now.getMinutes()-15));
+
+  return [
+    { self: false, text: theirMsgs[Math.floor(Math.random() * theirMsgs.length)], time: t1 },
+    { self: true, text: myMsgs[Math.floor(Math.random() * myMsgs.length)], time: t2 }
+  ];
+}
+
+// 打开聊天界面
+function openChat(friendId) {
+  const friend = WECHAT_FRIENDS.find(f => f.id === friendId);
+  if (!friend) return;
+
+  currentChatFriend = friend;
+
+  const avatarEl = document.getElementById('chatFriendAvatar');
+  const nameEl = document.getElementById('chatFriendName');
+  const statusEl = document.getElementById('chatFriendStatus');
+
+  if (avatarEl) avatarEl.src = friend.avatar;
+  if (nameEl) nameEl.textContent = friend.name;
+  if (statusEl) statusEl.textContent = friend.online ? '在线中' : '离线';
+
+  if (!chatHistory[friendId]) {
+    chatHistory[friendId] = generateInitialMessages(friend);
+  }
+
+  renderChatMessages(friendId);
+
+  // 清除未读
+  if (friend.unread > 0) {
+    friend.unread = 0;
+    renderFriendList();
+  }
+
+  showWechatPage('wechatChat');
+}
+
+// 渲染聊天消息
+function renderChatMessages(friendId) {
+  const messages = chatHistory[friendId] || [];
+  const chatMessages = document.getElementById('chatMessages');
+  const friend = WECHAT_FRIENDS.find(f => f.id === friendId);
+  if (!chatMessages || !friend) return;
+
+  chatMessages.innerHTML = messages.map(msg => `
+    <div class="chat-bubble-row ${msg.self ? 'self' : 'other'}">
+      <img src="${msg.self ? 'https://i.ibb.co/5gmRMGXP/IMG-5065.jpg' : friend.avatar}" class="chat-bubble-avatar" alt="">
+      <div class="chat-bubble ${msg.self ? 'bubble-self' : 'bubble-other'}">${escapeHtml(msg.text)}</div>
+    </div>
+  `).join('');
+
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// 发送消息
+function sendMessage() {
+  const input = document.getElementById('chatInput');
+  if (!input) return;
+  const text = input.value.trim();
+  if (!text || !currentChatFriend) return;
+
+  const friendId = currentChatFriend.id;
+  if (!chatHistory[friendId]) chatHistory[friendId] = [];
+
+  chatHistory[friendId].push({ self: true, text, time: getCurrentTime() });
+  renderChatMessages(friendId);
+  input.value = '';
+
+  // 模拟对方回复
+  setTimeout(() => {
+    const replies = [
+      '收到！', '哈哈哈', '真的吗？', '好呀好呀~', '我知道了', '嗯嗯',
+      '不错哦！', '我也想！', '好呀', '可以的~', '嗯嗯，明白！', '哈哈，好！'
+    ];
+    if (chatHistory[friendId]) {
+      chatHistory[friendId].push({
+        self: false,
+        text: replies[Math.floor(Math.random() * replies.length)],
+        time: getCurrentTime()
+      });
+      renderChatMessages(friendId);
+    }
+  }, 800 + Math.random() * 2000);
+}
+
+function getCurrentTime() {
+  const now = getBeijingTime();
+  return padZero(now.getHours()) + ':' + padZero(now.getMinutes());
+}
+
+// 显示微信子页面
+function showWechatPage(pageId) {
+  document.querySelectorAll('.wechat-page').forEach(p => p.classList.remove('active'));
+  const page = document.getElementById(pageId);
+  if (page) page.classList.add('active');
+
+  // 控制底部导航显示
+  const listNav = document.getElementById('listNav');
+  if (listNav) {
+    listNav.style.display = (pageId === 'wechatList') ? 'flex' : 'none';
+  }
+}
+
+// 打开好友资料页
+function openFriendProfile(friendId) {
+  const friend = WECHAT_FRIENDS.find(f => f.id === friendId);
+  if (!friend) return;
+
+  const titleEl = document.getElementById('friendProfileTitle');
+  const nameEl = document.getElementById('friendProfileName2');
+  const avatarEl = document.getElementById('friendProfileAvatar');
+  const statusEl = document.getElementById('friendProfileStatus');
+
+  if (titleEl) titleEl.textContent = friend.name;
+  if (nameEl) nameEl.textContent = friend.name;
+  if (avatarEl) avatarEl.src = friend.avatar;
+  if (statusEl) {
+    statusEl.textContent = friend.online ? '在线中' : '离线';
+    statusEl.className = 'status-tag ' + (friend.online ? 'online' : 'offline');
+  }
+
+  const fields = {
+    friendProfileRealName: friend.name,
+    friendProfileGender: friend.gender,
+    friendProfileAge: friend.age,
+    friendProfileBirthday: friend.birthday,
+    friendProfileRegion: friend.region,
+    friendProfileAffinity: friend.affinity,
+    friendProfileGroup: friend.group,
+    friendProfileHobby: friend.hobby
+  };
+
+  for (const [id, value] of Object.entries(fields)) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  showWechatPage('wechatFriend');
+}
+
+// 打开微信（从桌面APP图标）
+function openWechatFromDesktop() {
+  document.querySelectorAll('.phone-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('pageWechat').classList.add('active');
+  showWechatPage('wechatList');
+  renderFriendList();
+}
+
+// 微信事件绑定
+document.addEventListener('DOMContentLoaded', function() {
+  // appWechat按钮 - 已在下方修改
+
+  // 聊天页返回
+  const chatBackBtn = document.getElementById('chatBackBtn');
+  const chatBackBtn2 = document.getElementById('chatBackBtn2');
+  if (chatBackBtn) chatBackBtn.addEventListener('click', () => showWechatPage('wechatList'));
+  if (chatBackBtn2) chatBackBtn2.addEventListener('click', () => showWechatPage('wechatList'));
+
+  // 发送消息
+  const chatSendBtn = document.getElementById('chatSendBtn');
+  const chatInput = document.getElementById('chatInput');
+  if (chatSendBtn) chatSendBtn.addEventListener('click', sendMessage);
+  if (chatInput) chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') sendMessage(); });
+
+  // 跳转到好友资料
+  const chatToFriendBtn = document.getElementById('chatToFriendBtn');
+  if (chatToFriendBtn) {
+    chatToFriendBtn.addEventListener('click', () => {
+      if (currentChatFriend) openFriendProfile(currentChatFriend.id);
+    });
+  }
+
+  // 好友资料页返回
+  const friendBackBtn = document.getElementById('friendBackBtn');
+  if (friendBackBtn) friendBackBtn.addEventListener('click', () => showWechatPage('wechatList'));
+
+  // 好友资料页导航
+  const friendNavBack = document.getElementById('friendNavBack');
+  const friendNavChat = document.getElementById('friendNavChat');
+  const friendNavMe = document.getElementById('friendNavMe');
+  if (friendNavBack) friendNavBack.addEventListener('click', () => showWechatPage('wechatList'));
+  if (friendNavChat) friendNavChat.addEventListener('click', () => { if (currentChatFriend) openChat(currentChatFriend.id); });
+  if (friendNavMe) friendNavMe.addEventListener('click', () => showWechatPage('wechatMe'));
+
+  // 我的页面返回
+  const meBackBtn = document.getElementById('meBackBtn');
+  if (meBackBtn) meBackBtn.addEventListener('click', () => showWechatPage('wechatList'));
+
+  // 我的页面导航
+  const meNavBack = document.getElementById('meNavBack');
+  const meNavList = document.getElementById('meNavList');
+  if (meNavBack) meNavBack.addEventListener('click', () => showWechatPage('wechatList'));
+  if (meNavList) meNavList.addEventListener('click', () => showWechatPage('wechatList'));
+
+  // 列表页导航
+  const listNavBack = document.getElementById('listNavBack');
+  const listNavMe = document.getElementById('listNavMe');
+  if (listNavBack) {
+    listNavBack.addEventListener('click', () => {
+      document.querySelectorAll('.phone-page').forEach(p => p.classList.remove('active'));
+      document.getElementById('pageDesktop').classList.add('active');
+    });
+  }
+  if (listNavMe) listNavMe.addEventListener('click', () => showWechatPage('wechatMe'));
+
+  // 列表页按钮
+  const wechatToMeBtn = document.getElementById('wechatToMeBtn');
+  const wechatAddBtn = document.getElementById('wechatAddBtn');
+  if (wechatToMeBtn) wechatToMeBtn.addEventListener('click', () => showWechatPage('wechatMe'));
+  if (wechatAddBtn) wechatAddBtn.addEventListener('click', () => showAppToast && showAppToast('添加好友功能暂未开放'));
+
+  // 我的页面按钮
+  const mePageTag = document.getElementById('mePageTag');
+  if (mePageTag) mePageTag.addEventListener('click', () => showWechatPage('wechatMe'));
+
+  // 好友主页按钮（资料页标题区）
+  const friendToHomeBtn = document.getElementById('friendToHomeBtn');
+  if (friendToHomeBtn) {
+    friendToHomeBtn.addEventListener('click', () => {
+      if (currentChatFriend) openFriendProfile(currentChatFriend.id);
+    });
+  }
+});
 </script>
 </body>
 </html>
