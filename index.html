@@ -79,6 +79,29 @@ body::before {
   letter-spacing: 1px;
 }
 
+/* 天气图标 */
+#weatherIcon {
+  position: fixed;
+  top: 55px;
+  left: 12px;
+  z-index: 1001;
+  font-size: 34px;
+  cursor: pointer;
+  user-select: none;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  transition: transform 0.2s, filter 0.2s;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.2));
+}
+#weatherIcon:hover {
+  transform: scale(1.15);
+}
+#weatherIcon:active {
+  transform: scale(0.95);
+}
+@media (max-width: 600px) {
+  #weatherIcon { top: 48px; left: 8px; font-size: 28px; }
+}
+
 /* 交互按钮 */
 .interactive-btn {
   position: fixed;
@@ -1649,6 +1672,9 @@ body::before {
   </div>
 </div>
 
+<!-- 天气图标 -->
+<div id="weatherIcon" title="点击切换天气">☀️</div>
+
 <!-- 交互按钮 -->
 <button class="interactive-btn" id="btnGoOut" title="外出">
   <img src="https://i.ibb.co/ksckdZsy/IMG-4777.jpg" alt="外出">
@@ -1723,8 +1749,8 @@ body::before {
               <div>喝水 6/8</div>
             </div>
             <div class="widget-box">
-              <div class="widget-icon">☁️</div>
-              <div>多云 33°C</div>
+              <div class="widget-icon" id="widgetWeatherIcon">☁️</div>
+              <div id="widgetWeatherText">多云 33°C</div>
             </div>
           </div>
 
@@ -2162,6 +2188,70 @@ function getTimeType() {
   else return "night";
 }
 
+// ===== 天气系统 =====
+const WEATHER_TYPES = [
+  { type: 'sunny', icon: '☀️', name: '晴天' },
+  { type: 'rainy', icon: '🌧️', name: '雨天' },
+  { type: 'cloudy', icon: '☁️', name: '阴天' },
+  { type: 'partlyCloudy', icon: '⛅', name: '多云' }
+];
+
+const WEATHER_BACKGROUNDS = {
+  rainy: ['https://i.ibb.co/MkGK1CK4/IMG-5286.png'],
+  cloudy: [
+    'https://i.ibb.co/LdGKzPrV/IMG-5290.png',
+    'https://i.ibb.co/MkTYzfFN/91251-C0-D-221-A-43-B7-B630-72-A0-F1-AEA12-B.png'
+  ]
+};
+
+let currentWeatherIndex = Math.floor(Math.random() * WEATHER_TYPES.length);
+
+function getCurrentWeather() {
+  return WEATHER_TYPES[currentWeatherIndex];
+}
+
+function applyWeather() {
+  const weather = getCurrentWeather();
+  const iconEl = document.getElementById('weatherIcon');
+  if (iconEl) iconEl.textContent = weather.icon;
+
+  // 同步手机桌面widget天气
+  const widgetIcon = document.getElementById('widgetWeatherIcon');
+  const widgetText = document.getElementById('widgetWeatherText');
+  if (widgetIcon) widgetIcon.textContent = weather.icon;
+  if (widgetText) widgetText.textContent = weather.name + ' 33°C';
+}
+
+function switchWeather() {
+  currentWeatherIndex = (currentWeatherIndex + 1) % WEATHER_TYPES.length;
+  applyWeather();
+  setBackground();
+}
+
+function getWeatherBackground() {
+  const weather = getCurrentWeather();
+  const type = weather.type;
+
+  if (type === 'rainy') {
+    return WEATHER_BACKGROUNDS.rainy[0];
+  } else if (type === 'cloudy') {
+    const list = WEATHER_BACKGROUNDS.cloudy;
+    return list[Math.floor(Math.random() * list.length)];
+  } else {
+    // sunny / partlyCloudy 使用原有UI背景
+    const timeType = getTimeType();
+    const list = UI_MAP[timeType];
+    return list[Math.floor(Math.random() * list.length)];
+  }
+}
+
+// 自动随机切换天气（每60秒）
+setInterval(() => {
+  currentWeatherIndex = Math.floor(Math.random() * WEATHER_TYPES.length);
+  applyWeather();
+  setBackground();
+}, 60000);
+
 const UI_MAP = {
   day: ["https://i.ibb.co/2GyGQtz/IMG-4785.jpg", "https://i.ibb.co/TxkckTRt/IMG-4786.jpg","https://i.ibb.co/PzC8jGMt/8-D7-A3310-9-D6-A-476-E-8-DD3-0961-B93-C4216.png", "https://i.ibb.co/xtv6DBbr/IMG-4787.jpg","https://i.ibb.co/V0JmQ82T/IMG-5008.png"],
   evening: ["https://i.ibb.co/YBfn3byB/IMG-4788.jpg","https://i.ibb.co/PGZtsMFC/IMG-5035.png"],
@@ -2175,9 +2265,10 @@ function getRandomUI() {
 }
 
 function setBackground() {
-  document.body.style.backgroundImage = `url(${getRandomUI()})`;
+  document.body.style.backgroundImage = `url(${getWeatherBackground()})`;
 }
 setBackground();
+applyWeather();
 
 function updateStatusByTime() {
   const hour = new Date().getHours();
@@ -2862,6 +2953,10 @@ function openWechatFromDesktop() {
 
 // 微信事件绑定
 document.addEventListener('DOMContentLoaded', function() {
+  // 天气图标点击切换
+  const weatherIcon = document.getElementById('weatherIcon');
+  if (weatherIcon) weatherIcon.addEventListener('click', switchWeather);
+
   // appWechat按钮 - 已在下方修改
 
   // 聊天页返回
@@ -2938,72 +3033,3 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
-<!-- 天气图标和天气文字 -->
-<div id="weatherIcon" style="position: absolute; top: 20px; left: 20px; font-size: 30px;"></div>
-<div id="weatherText" style="position: absolute; top: 50px; left: 20px; font-size: 20px;"></div>
-
-<style>
-  #weatherIcon {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    font-size: 40px;
-  }
-
-  #weatherText {
-    position: absolute;
-    top: 60px;
-    left: 20px;
-    color: white;
-    font-size: 20px;
-  }
-</style>
-
-<script>
-let currentWeather = null;
-
-const WEATHER_ICON = {
-  Sunny: "☀️", 
-  Rain: "🌧️", 
-  Thunderstorm: "⛈️", 
-  Cloudy: "☁️", 
-  PartlyCloudy: "⛅️"
-};
-
-const UI_MAP = {
-  Sunny: ["原背景图"],  // 替换为实际背景图
-  Rain: ["https://i.ibb.co/MkGK1CK4/IMG-5286.png"], 
-  Thunderstorm: ["https://i.ibb.co/MkTYzfFN/91251-C0-D-221-A-43-B7-B630-72-A0-F1-AEA12-B.png"], 
-  Cloudy: ["https://i.ibb.co/LdGKzPrV/IMG-5290.png"], 
-  PartlyCloudy: ["https://i.ibb.co/2GyGQtz/IMG-4785.jpg"]
-};
-
-// 随机天气生成
-function randomWeather() {
-  const weatherTypes = ["Sunny", "Rain", "Thunderstorm", "Cloudy", "PartlyCloudy"];
-  currentWeather = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
-  updateWeatherUI();
-}
-
-// 更新天气UI
-function updateWeatherUI() {
-  const weatherIcon = document.getElementById("weatherIcon");
-  const weatherText = document.getElementById("weatherText");
-
-  weatherIcon.innerText = WEATHER_ICON[currentWeather];
-  weatherText.innerText = currentWeather;
-
-  const timeType = getTimeType();
-  document.body.style.backgroundImage = `url(${UI_MAP[currentWeather][0]})`;
-}
-
-randomWeather();
-setInterval(randomWeather, 86400000); // 每24小时切换一次天气
-
-function getTimeType() {
-  const hour = new Date().getHours();
-  if (hour >= 7 && hour < 15) return "day";
-  else if (hour >= 15 && hour < 19) return "evening";
-  else return "night";
-}
-</script>
