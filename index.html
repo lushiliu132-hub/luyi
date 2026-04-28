@@ -197,6 +197,18 @@ body::before {
   white-space: nowrap;
 }
 
+  <div id="weatherIcon" style="position: absolute; top: 20px; left: 20px; font-size: 30px;"></div>
+<div id="weatherText" style="position: absolute; top: 50px; left: 20px; font-size: 20px;"></div>
+#weatherIcon {
+  transition: 1s;
+  font-size: 40px;
+}
+
+#weatherText {
+  color: white;
+  font-size: 20px;
+}
+  
 /* ===== 小手机面板专用样式 ===== */
 #panelKitty {
   align-items: center;
@@ -2110,6 +2122,76 @@ body::before {
 
 
 <script>
+
+  // 天气图标和背景切换
+let currentWeather = null;
+
+const WEATHER_ICON = {
+  Sunny: "☀️", // 晴天
+  Rain: "🌧️", // 雨天
+  Thunderstorm: "⛈️", // 雷雨
+  Cloudy: "☁️", // 阴天
+  PartlyCloudy: "⛅️" // 多云
+};
+
+const UI_MAP = {
+  Sunny: ["原背景图"],  // 晴天背景
+  Rain: ["https://i.ibb.co/MkGK1CK4/IMG-5286.png"], // 雨天背景
+  Thunderstorm: ["https://i.ibb.co/MkTYzfFN/91251-C0-D-221-A-43-B7-B630-72-A0-F1-AEA12-B.png"], // 雷雨背景
+  Cloudy: ["https://i.ibb.co/LdGKzPrV/IMG-5290.png"], // 阴天背景
+  PartlyCloudy: ["https://i.ibb.co/2GyGQtz/IMG-4785.jpg"] // 多云背景
+};
+
+// 获取当前时间类型（白天、傍晚、夜晚）
+function getTimeType() {
+  const hour = new Date().getHours();
+  if (hour >= 7 && hour < 15) return "day";
+  else if (hour >= 15 && hour < 19) return "evening";
+  else return "night";
+}
+
+// 随机生成天气
+function randomWeather() {
+  const weatherTypes = ["Sunny", "Rain", "Thunderstorm", "Cloudy", "PartlyCloudy"];
+  currentWeather = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
+  updateWeatherUI();
+}
+
+// 更新天气图标和背景
+function updateWeatherUI() {
+  const weatherIcon = document.getElementById("weatherIcon");
+  const weatherText = document.getElementById("weatherText");
+
+  // 更新天气图标和文字
+  weatherIcon.innerText = WEATHER_ICON[currentWeather];
+  weatherText.innerText = currentWeather;
+
+  // 切换背景
+  const timeType = getTimeType();
+  document.body.style.backgroundImage = `url(${UI_MAP[currentWeather][0]})`;
+}
+
+// 初始化时，随机生成天气并更新
+randomWeather();
+
+setInterval(randomWeather, 86400000); // 每24小时切换一次天气
+// 更新时间和背景（时间段）
+  
+function updateClock() {
+  const hour = new Date().getHours();
+  const period = hour < 12 ? '上午' : '下午';
+  const displayHour = hour % 12 || 12;
+  document.getElementById('timeText').textContent = `${displayHour} ${period}`;
+
+  Object.values(CLOCK_ICONS).forEach(url => {
+    const img = new Image();
+    img.src = url;
+  });
+
+  setInterval(updateClock, 1000);
+}
+
+updateClock();  // 初始化时钟更新
 // ===== 时钟图标 =====
 const CLOCK_ICONS = {
   night: 'https://i.ibb.co/sJCmM13V/IMG-4775.png',
