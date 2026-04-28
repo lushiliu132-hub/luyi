@@ -2938,3 +2938,72 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
+<!-- 天气图标和天气文字 -->
+<div id="weatherIcon" style="position: absolute; top: 20px; left: 20px; font-size: 30px;"></div>
+<div id="weatherText" style="position: absolute; top: 50px; left: 20px; font-size: 20px;"></div>
+
+<style>
+  #weatherIcon {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 40px;
+  }
+
+  #weatherText {
+    position: absolute;
+    top: 60px;
+    left: 20px;
+    color: white;
+    font-size: 20px;
+  }
+</style>
+
+<script>
+let currentWeather = null;
+
+const WEATHER_ICON = {
+  Sunny: "☀️", 
+  Rain: "🌧️", 
+  Thunderstorm: "⛈️", 
+  Cloudy: "☁️", 
+  PartlyCloudy: "⛅️"
+};
+
+const UI_MAP = {
+  Sunny: ["原背景图"],  // 替换为实际背景图
+  Rain: ["https://i.ibb.co/MkGK1CK4/IMG-5286.png"], 
+  Thunderstorm: ["https://i.ibb.co/MkTYzfFN/91251-C0-D-221-A-43-B7-B630-72-A0-F1-AEA12-B.png"], 
+  Cloudy: ["https://i.ibb.co/LdGKzPrV/IMG-5290.png"], 
+  PartlyCloudy: ["https://i.ibb.co/2GyGQtz/IMG-4785.jpg"]
+};
+
+// 随机天气生成
+function randomWeather() {
+  const weatherTypes = ["Sunny", "Rain", "Thunderstorm", "Cloudy", "PartlyCloudy"];
+  currentWeather = weatherTypes[Math.floor(Math.random() * weatherTypes.length)];
+  updateWeatherUI();
+}
+
+// 更新天气UI
+function updateWeatherUI() {
+  const weatherIcon = document.getElementById("weatherIcon");
+  const weatherText = document.getElementById("weatherText");
+
+  weatherIcon.innerText = WEATHER_ICON[currentWeather];
+  weatherText.innerText = currentWeather;
+
+  const timeType = getTimeType();
+  document.body.style.backgroundImage = `url(${UI_MAP[currentWeather][0]})`;
+}
+
+randomWeather();
+setInterval(randomWeather, 86400000); // 每24小时切换一次天气
+
+function getTimeType() {
+  const hour = new Date().getHours();
+  if (hour >= 7 && hour < 15) return "day";
+  else if (hour >= 15 && hour < 19) return "evening";
+  else return "night";
+}
+</script>
